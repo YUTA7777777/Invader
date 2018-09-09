@@ -41,6 +41,11 @@ namespace Invader
 						case ConsoleKey.RightArrow:
 							Move(4);
 							break;
+						case ConsoleKey.Enter:
+							Console.SetCursorPosition(Console.WindowWidth/2-3,Console.WindowHeight/2);
+							Console.Write("PAUSE");
+							Console.ReadKey();
+							break;
 					}
 				}
 				TimeSpan ts = sw.Elapsed;
