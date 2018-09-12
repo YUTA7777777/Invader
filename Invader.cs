@@ -101,7 +101,6 @@ namespace Invader
 						case ConsoleKey.Escape:
 							Environment.Exit(0);
 							break;
-						case ConsoleKey.A:
 						case ConsoleKey.D1:
 						case ConsoleKey.D2:
 						case ConsoleKey.D3:
@@ -139,6 +138,7 @@ namespace Invader
 							Console.SetCursorPosition(Console.WindowWidth/2-3,Console.WindowHeight/2);
 							Console.Write("PAUSE");
 							Console.ReadKey();
+							Console.Clear();
 							sw.Start();
 							break;
 					}
