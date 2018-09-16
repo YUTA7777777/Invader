@@ -9,33 +9,16 @@ namespace Invader
 		static Player p;
 		static Player b;
 		static Player[] t;
-		static Player[] tb;
-		static int interval=1;
+		public static string file="";
+		public static uint interval=0;
 		static void Main()
 		{
 			Console.Clear();
 			Console.CursorVisible=false;
 			Console.Title="Invader";
-			Console.WindowWidth=32;
-			Console.WindowHeight=15;
-			p=new Player();
-			b=new Player();
-			p.x=0;
-			p.y=Console.WindowHeight-1;
-			p.name="A";
-			t=new Player[9];
-			for(int i=0;i<t.Length;i++)
-			{
-				t[i]=new Player();
-				t[i].x=i+1;
-				t[i].y=0;
-				t[i].name="V";
-			}
-			tb=new Player[t.Length];
-			for(int i=0;i<tb.Length;i++)
-			{
-				tb[i]=new Player();
-			}
+			Console.WindowWidth=20;
+			Console.WindowHeight=20;
+			Init();
 			Run();
 			Console.Clear();
 			Console.SetCursorPosition(Console.WindowWidth/2-3,Console.WindowHeight/2);
@@ -50,7 +33,210 @@ namespace Invader
 			Console.CursorVisible=true;
 		}
 		static void Init()
-		{}
+		{
+			file+="V,19,0,|,5\n";
+			file+="V,17,0,|,0\n";
+			file+="V,15,0,|,0\n";
+			file+="V,13,0,|,0\n";
+			file+="V,11,0,|,0\n";
+			file+="V,9,0,|,0\n";
+			file+="V,7,0,|,0\n";
+			file+="V,5,0,|,0\n";
+			file+="V,3,0,|,0\n";
+			file+="V,1,0,|,0\n";
+			file+="V,20,0,|,5\n";
+			file+="V,18,0,|,0\n";
+			file+="V,16,0,|,0\n";
+			file+="V,14,0,|,0\n";
+			file+="V,12,0,|,0\n";
+			file+="V,10,0,|,0\n";
+			file+="V,8,0,|,0\n";
+			file+="V,6,0,|,0\n";
+			file+="V,4,0,|,0\n";
+			file+="V,2,0,|,0\n";
+			file+="V,0,0,|,0\n";
+			file+="V,19,0,|,5\n";
+			file+="V,17,0,|,0\n";
+			file+="V,15,0,|,0\n";
+			file+="V,13,0,|,0\n";
+			file+="V,11,0,|,0\n";
+			file+="V,9,0,|,0\n";
+			file+="V,7,0,|,0\n";
+			file+="V,5,0,|,0\n";
+			file+="V,3,0,|,0\n";
+			file+="V,1,0,|,0\n";
+			file+="V,20,0,|,5\n";
+			file+="V,18,0,|,0\n";
+			file+="V,16,0,|,0\n";
+			file+="V,14,0,|,0\n";
+			file+="V,12,0,|,0\n";
+			file+="V,10,0,|,0\n";
+			file+="V,8,0,|,0\n";
+			file+="V,6,0,|,0\n";
+			file+="V,4,0,|,0\n";
+			file+="V,2,0,|,0\n";
+			file+="V,0,0,|,0\n";
+
+			file+="V,1,0,Z,40\n";
+			file+="V,1,0,Z,10\n";
+			file+="V,1,0,Z,10\n";
+			file+="V,1,0,Z,10\n";
+
+			file+="V,1,1,Z,10\n";
+			file+="V,1,1,Z,10\n";
+			file+="V,1,1,Z,10\n";
+			file+="V,1,1,Z,10\n";
+
+			file+="V,19,0,|,20\n";
+			file+="V,17,0,|,0\n";
+			file+="V,15,0,|,0\n";
+			file+="V,13,0,|,0\n";
+			file+="V,11,0,|,0\n";
+			file+="V,9,0,|,0\n";
+			file+="V,7,0,|,0\n";
+			file+="V,5,0,|,0\n";
+			file+="V,3,0,|,0\n";
+			file+="V,1,0,|,0\n";
+
+			file+="V,20,0,|,20\n";
+			file+="V,18,0,|,0\n";
+			file+="V,16,0,|,0\n";
+			file+="V,14,0,|,0\n";
+			file+="V,12,0,|,0\n";
+			file+="V,10,0,|,0\n";
+			file+="V,8,0,|,0\n";
+			file+="V,6,0,|,0\n";
+			file+="V,4,0,|,0\n";
+			file+="V,2,0,|,0\n";
+			file+="V,0,0,|,0\n";
+
+			file+="V,1,2,Z,10\n";
+			file+="V,1,2,Z,10\n";
+			file+="V,1,2,Z,10\n";
+			file+="V,1,2,Z,10\n";
+
+			file+="V,19,0,|,20\n";
+			file+="V,17,0,|,0\n";
+			file+="V,15,0,|,0\n";
+			file+="V,13,0,|,0\n";
+			file+="V,11,0,|,0\n";
+			file+="V,9,0,|,0\n";
+			file+="V,7,0,|,0\n";
+			file+="V,5,0,|,0\n";
+			file+="V,3,0,|,0\n";
+			file+="V,1,0,|,0\n";
+
+			file+="V,20,0,|,20\n";
+			file+="V,18,0,|,0\n";
+			file+="V,16,0,|,0\n";
+			file+="V,14,0,|,0\n";
+			file+="V,12,0,|,0\n";
+			file+="V,10,0,|,0\n";
+			file+="V,8,0,|,0\n";
+			file+="V,6,0,|,0\n";
+			file+="V,4,0,|,0\n";
+			file+="V,2,0,|,0\n";
+			file+="V,0,0,|,0\n";
+
+			file+="V,1,3,Z,10\n";
+			file+="V,1,3,Z,10\n";
+			file+="V,1,3,Z,10\n";
+			file+="V,1,3,Z,10\n";
+
+			file+="V,19,0,|,20\n";
+			file+="V,17,0,|,0\n";
+			file+="V,15,0,|,0\n";
+			file+="V,13,0,|,0\n";
+			file+="V,11,0,|,0\n";
+			file+="V,9,0,|,0\n";
+			file+="V,7,0,|,0\n";
+			file+="V,5,0,|,0\n";
+			file+="V,3,0,|,0\n";
+			file+="V,1,0,|,0\n";
+
+			file+="V,20,0,|,20\n";
+			file+="V,18,0,|,0\n";
+			file+="V,16,0,|,0\n";
+			file+="V,14,0,|,0\n";
+			file+="V,12,0,|,0\n";
+			file+="V,10,0,|,0\n";
+			file+="V,8,0,|,0\n";
+			file+="V,6,0,|,0\n";
+			file+="V,4,0,|,0\n";
+			file+="V,2,0,|,0\n";
+			file+="V,0,0,|,0\n";
+
+			file+="V,1,4,Z,10\n";
+			file+="V,1,4,Z,10\n";
+			file+="V,1,4,Z,10\n";
+
+			file+="V,19,0,|,20\n";
+			file+="V,17,0,|,0\n";
+			file+="V,15,0,|,0\n";
+			file+="V,13,0,|,0\n";
+			file+="V,11,0,|,0\n";
+			file+="V,9,0,|,0\n";
+			file+="V,7,0,|,0\n";
+			file+="V,5,0,|,0\n";
+			file+="V,3,0,|,0\n";
+			file+="V,1,0,|,0\n";
+
+			file+="V,20,0,|,20\n";
+			file+="V,18,0,|,0\n";
+			file+="V,16,0,|,0\n";
+			file+="V,14,0,|,0\n";
+			file+="V,12,0,|,0\n";
+			file+="V,10,0,|,0\n";
+			file+="V,8,0,|,0\n";
+			file+="V,6,0,|,0\n";
+			file+="V,4,0,|,0\n";
+			file+="V,2,0,|,0\n";
+			file+="V,0,0,|,0\n";
+			file+="V,1,4,Z,10\n";
+
+			p=new Player();
+			b=new Player();
+			b.name="|";
+			p.count=0;
+			p.x=0;
+			p.y=Console.WindowHeight-1;
+			p.name="A";
+			p.count=0;
+			string[] data=file.Split('\n');
+			t=new Player[0];
+			int players=0;
+			int wait=0;
+			for(int i=0;i<data.Length;i++)
+			{
+				string[] node=data[i].Split(',');
+				try
+				{
+					Player tmp=new Player();
+					tmp.name=node[0];
+					tmp.x=int.Parse(node[1]);
+					tmp.y=int.Parse(node[2]);
+					try{
+						tmp.c=node[3];
+					}catch{
+						tmp.c="";
+					}
+					try{
+						wait+=int.Parse(node[4]);
+					}catch{
+					}
+					players++;
+					Array.Resize(ref t,t.Length+1);
+					t[t.Length-1]=tmp;
+					t[t.Length-1].count=players;
+					t[t.Length-1].status=1;
+					t[t.Length-1].wait=wait;
+					Array.Sort(t);
+					Array.Reverse(t);
+				}catch
+				{
+				}
+			}
+		}
 		static void Move(int h)
 		{
 			switch(h)
@@ -62,12 +248,7 @@ namespace Invader
 						Console.Write(" ");
 						p.x--;
 						Console.SetCursorPosition(p.x,p.y);
-						Console.Write("A");
-						for(int i=0;i<tb.Length;i++)
-						{
-							if(p.y==tb[i].y && p.x==tb[i].x)
-								gameover=true;
-						}
+						Console.Write(p.name);
 					}
 					break;
 				case 2:
@@ -77,12 +258,27 @@ namespace Invader
 						Console.Write(" ");
 						p.x++;
 						Console.SetCursorPosition(p.x,p.y);
-						Console.Write("A");
-						for(int i=0;i<tb.Length;i++)
-						{
-							if(p.y==tb[i].y && p.x==tb[i].x)
-								gameover=true;
-						}
+						Console.Write(p.name);
+					}
+					break;
+				case 3:
+					if(p.y>0)
+					{
+						Console.SetCursorPosition(p.x,p.y);
+						Console.Write(" ");
+						p.y--;
+						Console.SetCursorPosition(p.x,p.y);
+						Console.Write(p.name);
+					}
+					break;
+				case 4:
+					if(p.y<Console.WindowHeight-1)
+					{
+						Console.SetCursorPosition(p.x,p.y);
+						Console.Write(" ");
+						p.y++;
+						Console.SetCursorPosition(p.x,p.y);
+						Console.Write(p.name);
 					}
 					break;
 			}
@@ -109,29 +305,36 @@ namespace Invader
 						case ConsoleKey.D6:
 						case ConsoleKey.D7:
 						case ConsoleKey.D8:
+						case ConsoleKey.D9:
 							for(int i=0;i<t.Length;i++)
 							{
 								if(i==int.Parse(c.KeyChar.ToString())-1)
-								t[i].status=1;
+									t[i].status=1;
 							}
 							break;
 						case ConsoleKey.Spacebar:
-							if(b.status!=1)
+							if(b.status!=1 && p.y>0)
 							{
 								b.status=1;
 								b.x=p.x;
 								b.y=p.y-1;
+								Console.ForegroundColor=ConsoleColor.Red;
+								Console.SetCursorPosition(b.x,b.y);
+								Console.Write(b.name);
+								Console.ForegroundColor=ConsoleColor.White;
 							}
-							Console.ForegroundColor=ConsoleColor.Red;
-							Console.SetCursorPosition(b.x,b.y);
-							Console.Write("|");
-							Console.ForegroundColor=ConsoleColor.White;
 							break;
 						case ConsoleKey.LeftArrow:
 							Move(1);
 							break;
 						case ConsoleKey.RightArrow:
 							Move(2);
+							break;
+						case ConsoleKey.UpArrow:
+							Move(3);
+							break;
+						case ConsoleKey.DownArrow:
+							Move(4);
 							break;
 						case ConsoleKey.Enter:
 							sw.Stop();
@@ -150,150 +353,123 @@ namespace Invader
 					sw.Reset();
 					sw.Start();
 				} 
-				for(int i=0;i<tb.Length;i++)
+				for(int i=0;i<t.Length;i++)
 				{
-					if(p.y==tb[i].y && p.x==tb[i].x)
+					if(p.y==t[i].y && p.x==t[i].x && t[i].status==1)
 						gameover=true;
 				}
 			}
 		}
 		static void Update()
 		{
+			interval++;
 			for(int i=0;i<t.Length;i++)
 			{
-				Console.SetCursorPosition(t[i].x,t[i].y);
-				Console.Write(" ");
-			}
-			for(int i=0;i<tb.Length;i++)
-			{
-				Console.SetCursorPosition(tb[i].x,tb[i].y);
+				if(t[i].x>=0 & t[i].x<=Console.WindowWidth-1 & t[i].y>=0 & t[i].y<=Console.WindowHeight-1)
+					Console.SetCursorPosition(t[i].x,t[i].y);
 				Console.Write(" ");
 			}
 			Console.SetCursorPosition(p.x,p.y);
 			Console.Write(" ");
-			Console.SetCursorPosition(b.x,b.y);
-			Console.Write(" ");
+			if(b.status==1)
+			{
+				Console.SetCursorPosition(b.x,b.y);
+				Console.Write(" ");
+			}
 			if(b.y==0 & b.status==1)
 			{
 				b.status=0;
-				b.y=p.y;
+				b.y=Console.WindowHeight+1;
 			}
 			if(b.status==1)
 			{
 				b.y--;
+				for(int i=0;i<t.Length;i++)
+				{
+					if(t[i].x==b.x & t[i].y==b.y & t[i].enter==1 & t[i].status==1)
+					{
+						t[i].status=0;
+						t[i].enter=0;
+					}
+				}
 				Console.SetCursorPosition(b.x,b.y);
 				Console.ForegroundColor=ConsoleColor.Red;
-				Console.Write("|");
+				Console.Write(b.name);
 				Console.ForegroundColor=ConsoleColor.White;
+			}
+			for(int i=0;i<t.Length;i++)
+			{
+				if(interval>=t[i].wait)
+				{
+					t[i].enter=1;
+				}
+				if(t[i].status==1&t[i].enter==1)
+				{
+					switch(t[i].c)
+					{
+						case "|":
+							t[i].y++;
+							break;
+						case "Z":
+							t[i].interval++;
+							if(t[i].interval%32>=16)
+							{
+								if(t[i].x<Console.WindowWidth-1)
+									t[i].x++;
+							}else
+							{
+								if(t[i].x>1)
+									t[i].x--;
+							}
+							if(t[i].interval%4==1)
+								t[i].y++;
+							break;
+					}
+				}
 			}
 			int j=t.Length;
 			for(int i=0;i<t.Length;i++)
 			{
-				if(t[i].status==0)
+				if(t[i].status==1)
 					clear=false;
 				else
 					j--;
 			}
 			if(j==0)
 				clear=true;
-			else if(j>1)
+			for(int i=0;i<t.Length;i++)
 			{
-				int seed = Environment.TickCount;
-				if(t[t.Length-1].x>=Console.WindowWidth-2)
+				if(t[i].y>Console.WindowHeight-1 | t[i].y<0 | t[i].x>Console.WindowWidth-1 | t[i].y<0 | (t[i].x==b.x & t[i].y==b.y & t[i].status==1 & t[i].enter==1))
 				{
-					interval=-1;
-				}else if(t[0].x<=0)
-				{
-					interval=1;
+					t[i].status=0;
+					t[i].y=0;
 				}
-				for(int i=0;i<t.Length;i++)
+				if(t[i].status==1&t[i].enter==1)
 				{
-					t[i].x+=interval;
 					Console.SetCursorPosition(t[i].x,t[i].y);
-					if(b.y==t[i].y && b.x==t[i].x)
-						t[i].status=1;
-					if(t[i].status==0)
-					{
-						Console.Write("V");
-						if(tb[i].status==0)
-						{
-							Random r = new Random(seed++);
-							if(r.Next(j)==1)
-							{
-								tb[i].y=t[i].y+1;
-								tb[i].x=t[i].x;
-								tb[i].status=1;
-							}
-						}
-					}
-					if(tb[i].status==1)
-					{
-						tb[i].y++;
-					}
+					Console.Write(t[i].name);
 				}
-			}
-			else if(j==1)
-			{
-				int ikinokori=0;
-				for(int i=0;i<t.Length;i++)
-				{
-					if(t[i].status==1)
-					{
-						ikinokori=i;
-					}
-				}
-				if(b.y==t[ikinokori].y && b.x==t[ikinokori].x)
-					clear=true;
-				if(interval==1 | interval==-1 | interval==2)
-				{
-					for(int k=0;k<tb.Length;k++)
-					{
-						tb[k].x=t[ikinokori].x-ikinokori+tb.Length/2+k-1;
-						tb[k].y=t[k].y+1;
-						tb[k].status=1;
-					}
-					interval=3;
-				}else if(interval>Console.WindowHeight)
-				{
-					interval=2;
-				}else
-				{
-					for(int k=0;k<tb.Length;k++)
-					{
-						tb[k].y++;
-					}
-					interval++;
-				}
-				Console.SetCursorPosition(t[ikinokori].x,t[ikinokori].y);
-				Console.Write("V");
-			}
-			for(int i=0;i<tb.Length;i++)
-			{
-				if(tb[i].y==Console.WindowHeight)
-				{
-					tb[i].status=0;
-					tb[i].y=0;
-				}
-				if(tb[i].status==1)
-				{
-					Console.SetCursorPosition(tb[i].x,tb[i].y);
-					Console.ForegroundColor=ConsoleColor.Green;
-					Console.Write("|");
-					Console.ForegroundColor=ConsoleColor.White;
-				}
-			}
-			for(int i=0;i<tb.Length;i++)
-			{
-				if(p.y==tb[i].y && p.x==tb[i].x)
-					gameover=true;
 			}
 			Console.SetCursorPosition(p.x,p.y);
-			Console.Write("A");
+			Console.Write(p.name);
 		}
 	}
-	class Player
+	class Player : System.IComparable
 	{
-		public int status,x,y;
-		public string name;
+		public int status,x,y,count,wait,enter,interval;
+		public string name,c;
+		public static int Count=1;
+		public Player()
+		{
+			Count++;
+		}
+		public void Dispose()
+		{
+			Count--;
+		}
+		public int CompareTo(object obj)
+		{
+			return this.count.CompareTo(((Player)obj).count);
+		}
 	}
 }
