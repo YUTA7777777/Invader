@@ -34,166 +34,173 @@ namespace Invader
 		}
 		static void Init()
 		{
-			file+="V,19,0,|,5\n";
-			file+="V,17,0,|,0\n";
-			file+="V,15,0,|,0\n";
-			file+="V,13,0,|,0\n";
-			file+="V,11,0,|,0\n";
-			file+="V,9,0,|,0\n";
-			file+="V,7,0,|,0\n";
-			file+="V,5,0,|,0\n";
-			file+="V,3,0,|,0\n";
-			file+="V,1,0,|,0\n";
-			file+="V,20,0,|,5\n";
-			file+="V,18,0,|,0\n";
-			file+="V,16,0,|,0\n";
-			file+="V,14,0,|,0\n";
-			file+="V,12,0,|,0\n";
-			file+="V,10,0,|,0\n";
-			file+="V,8,0,|,0\n";
-			file+="V,6,0,|,0\n";
-			file+="V,4,0,|,0\n";
-			file+="V,2,0,|,0\n";
-			file+="V,0,0,|,0\n";
-			file+="V,19,0,|,5\n";
-			file+="V,17,0,|,0\n";
-			file+="V,15,0,|,0\n";
-			file+="V,13,0,|,0\n";
-			file+="V,11,0,|,0\n";
-			file+="V,9,0,|,0\n";
-			file+="V,7,0,|,0\n";
-			file+="V,5,0,|,0\n";
-			file+="V,3,0,|,0\n";
-			file+="V,1,0,|,0\n";
-			file+="V,20,0,|,5\n";
-			file+="V,18,0,|,0\n";
-			file+="V,16,0,|,0\n";
-			file+="V,14,0,|,0\n";
-			file+="V,12,0,|,0\n";
-			file+="V,10,0,|,0\n";
-			file+="V,8,0,|,0\n";
-			file+="V,6,0,|,0\n";
-			file+="V,4,0,|,0\n";
-			file+="V,2,0,|,0\n";
-			file+="V,0,0,|,0\n";
+			try{
+				using(System.IO.StreamReader r = new System.IO.StreamReader("Data"))
+				{
+					file=r.ReadToEnd();
+				}
+			}catch{
+				file+="V,19,0,|,5\n";
+				file+="V,17,0,|,0\n";
+				file+="V,15,0,|,0\n";
+				file+="V,13,0,|,0\n";
+				file+="V,11,0,|,0\n";
+				file+="V,9,0,|,0\n";
+				file+="V,7,0,|,0\n";
+				file+="V,5,0,|,0\n";
+				file+="V,3,0,|,0\n";
+				file+="V,1,0,|,0\n";
+				file+="V,20,0,|,5\n";
+				file+="V,18,0,|,0\n";
+				file+="V,16,0,|,0\n";
+				file+="V,14,0,|,0\n";
+				file+="V,12,0,|,0\n";
+				file+="V,10,0,|,0\n";
+				file+="V,8,0,|,0\n";
+				file+="V,6,0,|,0\n";
+				file+="V,4,0,|,0\n";
+				file+="V,2,0,|,0\n";
+				file+="V,0,0,|,0\n";
+				file+="V,19,0,|,5\n";
+				file+="V,17,0,|,0\n";
+				file+="V,15,0,|,0\n";
+				file+="V,13,0,|,0\n";
+				file+="V,11,0,|,0\n";
+				file+="V,9,0,|,0\n";
+				file+="V,7,0,|,0\n";
+				file+="V,5,0,|,0\n";
+				file+="V,3,0,|,0\n";
+				file+="V,1,0,|,0\n";
+				file+="V,20,0,|,5\n";
+				file+="V,18,0,|,0\n";
+				file+="V,16,0,|,0\n";
+				file+="V,14,0,|,0\n";
+				file+="V,12,0,|,0\n";
+				file+="V,10,0,|,0\n";
+				file+="V,8,0,|,0\n";
+				file+="V,6,0,|,0\n";
+				file+="V,4,0,|,0\n";
+				file+="V,2,0,|,0\n";
+				file+="V,0,0,|,0\n";
 
-			file+="V,1,0,Z,40\n";
-			file+="V,1,0,Z,10\n";
-			file+="V,1,0,Z,10\n";
-			file+="V,1,0,Z,10\n";
+				file+="V,1,0,Z,40\n";
+				file+="V,1,0,Z,10\n";
+				file+="V,1,0,Z,10\n";
+				file+="V,1,0,Z,10\n";
 
-			file+="V,1,1,Z,10\n";
-			file+="V,1,1,Z,10\n";
-			file+="V,1,1,Z,10\n";
-			file+="V,1,1,Z,10\n";
+				file+="V,1,1,Z,10\n";
+				file+="V,1,1,Z,10\n";
+				file+="V,1,1,Z,10\n";
+				file+="V,1,1,Z,10\n";
 
-			file+="V,19,0,|,20\n";
-			file+="V,17,0,|,0\n";
-			file+="V,15,0,|,0\n";
-			file+="V,13,0,|,0\n";
-			file+="V,11,0,|,0\n";
-			file+="V,9,0,|,0\n";
-			file+="V,7,0,|,0\n";
-			file+="V,5,0,|,0\n";
-			file+="V,3,0,|,0\n";
-			file+="V,1,0,|,0\n";
+				file+="V,19,0,|,20\n";
+				file+="V,17,0,|,0\n";
+				file+="V,15,0,|,0\n";
+				file+="V,13,0,|,0\n";
+				file+="V,11,0,|,0\n";
+				file+="V,9,0,|,0\n";
+				file+="V,7,0,|,0\n";
+				file+="V,5,0,|,0\n";
+				file+="V,3,0,|,0\n";
+				file+="V,1,0,|,0\n";
 
-			file+="V,20,0,|,20\n";
-			file+="V,18,0,|,0\n";
-			file+="V,16,0,|,0\n";
-			file+="V,14,0,|,0\n";
-			file+="V,12,0,|,0\n";
-			file+="V,10,0,|,0\n";
-			file+="V,8,0,|,0\n";
-			file+="V,6,0,|,0\n";
-			file+="V,4,0,|,0\n";
-			file+="V,2,0,|,0\n";
-			file+="V,0,0,|,0\n";
+				file+="V,20,0,|,20\n";
+				file+="V,18,0,|,0\n";
+				file+="V,16,0,|,0\n";
+				file+="V,14,0,|,0\n";
+				file+="V,12,0,|,0\n";
+				file+="V,10,0,|,0\n";
+				file+="V,8,0,|,0\n";
+				file+="V,6,0,|,0\n";
+				file+="V,4,0,|,0\n";
+				file+="V,2,0,|,0\n";
+				file+="V,0,0,|,0\n";
 
-			file+="V,1,2,Z,10\n";
-			file+="V,1,2,Z,10\n";
-			file+="V,1,2,Z,10\n";
-			file+="V,1,2,Z,10\n";
+				file+="V,1,2,Z,10\n";
+				file+="V,1,2,Z,10\n";
+				file+="V,1,2,Z,10\n";
+				file+="V,1,2,Z,10\n";
 
-			file+="V,19,0,|,20\n";
-			file+="V,17,0,|,0\n";
-			file+="V,15,0,|,0\n";
-			file+="V,13,0,|,0\n";
-			file+="V,11,0,|,0\n";
-			file+="V,9,0,|,0\n";
-			file+="V,7,0,|,0\n";
-			file+="V,5,0,|,0\n";
-			file+="V,3,0,|,0\n";
-			file+="V,1,0,|,0\n";
+				file+="V,19,0,|,20\n";
+				file+="V,17,0,|,0\n";
+				file+="V,15,0,|,0\n";
+				file+="V,13,0,|,0\n";
+				file+="V,11,0,|,0\n";
+				file+="V,9,0,|,0\n";
+				file+="V,7,0,|,0\n";
+				file+="V,5,0,|,0\n";
+				file+="V,3,0,|,0\n";
+				file+="V,1,0,|,0\n";
 
-			file+="V,20,0,|,20\n";
-			file+="V,18,0,|,0\n";
-			file+="V,16,0,|,0\n";
-			file+="V,14,0,|,0\n";
-			file+="V,12,0,|,0\n";
-			file+="V,10,0,|,0\n";
-			file+="V,8,0,|,0\n";
-			file+="V,6,0,|,0\n";
-			file+="V,4,0,|,0\n";
-			file+="V,2,0,|,0\n";
-			file+="V,0,0,|,0\n";
+				file+="V,20,0,|,20\n";
+				file+="V,18,0,|,0\n";
+				file+="V,16,0,|,0\n";
+				file+="V,14,0,|,0\n";
+				file+="V,12,0,|,0\n";
+				file+="V,10,0,|,0\n";
+				file+="V,8,0,|,0\n";
+				file+="V,6,0,|,0\n";
+				file+="V,4,0,|,0\n";
+				file+="V,2,0,|,0\n";
+				file+="V,0,0,|,0\n";
 
-			file+="V,1,3,Z,10\n";
-			file+="V,1,3,Z,10\n";
-			file+="V,1,3,Z,10\n";
-			file+="V,1,3,Z,10\n";
+				file+="V,1,3,Z,10\n";
+				file+="V,1,3,Z,10\n";
+				file+="V,1,3,Z,10\n";
+				file+="V,1,3,Z,10\n";
 
-			file+="V,19,0,|,20\n";
-			file+="V,17,0,|,0\n";
-			file+="V,15,0,|,0\n";
-			file+="V,13,0,|,0\n";
-			file+="V,11,0,|,0\n";
-			file+="V,9,0,|,0\n";
-			file+="V,7,0,|,0\n";
-			file+="V,5,0,|,0\n";
-			file+="V,3,0,|,0\n";
-			file+="V,1,0,|,0\n";
+				file+="V,19,0,|,20\n";
+				file+="V,17,0,|,0\n";
+				file+="V,15,0,|,0\n";
+				file+="V,13,0,|,0\n";
+				file+="V,11,0,|,0\n";
+				file+="V,9,0,|,0\n";
+				file+="V,7,0,|,0\n";
+				file+="V,5,0,|,0\n";
+				file+="V,3,0,|,0\n";
+				file+="V,1,0,|,0\n";
 
-			file+="V,20,0,|,20\n";
-			file+="V,18,0,|,0\n";
-			file+="V,16,0,|,0\n";
-			file+="V,14,0,|,0\n";
-			file+="V,12,0,|,0\n";
-			file+="V,10,0,|,0\n";
-			file+="V,8,0,|,0\n";
-			file+="V,6,0,|,0\n";
-			file+="V,4,0,|,0\n";
-			file+="V,2,0,|,0\n";
-			file+="V,0,0,|,0\n";
+				file+="V,20,0,|,20\n";
+				file+="V,18,0,|,0\n";
+				file+="V,16,0,|,0\n";
+				file+="V,14,0,|,0\n";
+				file+="V,12,0,|,0\n";
+				file+="V,10,0,|,0\n";
+				file+="V,8,0,|,0\n";
+				file+="V,6,0,|,0\n";
+				file+="V,4,0,|,0\n";
+				file+="V,2,0,|,0\n";
+				file+="V,0,0,|,0\n";
 
-			file+="V,1,4,Z,10\n";
-			file+="V,1,4,Z,10\n";
-			file+="V,1,4,Z,10\n";
+				file+="V,1,4,Z,10\n";
+				file+="V,1,4,Z,10\n";
+				file+="V,1,4,Z,10\n";
 
-			file+="V,19,0,|,20\n";
-			file+="V,17,0,|,0\n";
-			file+="V,15,0,|,0\n";
-			file+="V,13,0,|,0\n";
-			file+="V,11,0,|,0\n";
-			file+="V,9,0,|,0\n";
-			file+="V,7,0,|,0\n";
-			file+="V,5,0,|,0\n";
-			file+="V,3,0,|,0\n";
-			file+="V,1,0,|,0\n";
+				file+="V,19,0,|,20\n";
+				file+="V,17,0,|,0\n";
+				file+="V,15,0,|,0\n";
+				file+="V,13,0,|,0\n";
+				file+="V,11,0,|,0\n";
+				file+="V,9,0,|,0\n";
+				file+="V,7,0,|,0\n";
+				file+="V,5,0,|,0\n";
+				file+="V,3,0,|,0\n";
+				file+="V,1,0,|,0\n";
 
-			file+="V,20,0,|,20\n";
-			file+="V,18,0,|,0\n";
-			file+="V,16,0,|,0\n";
-			file+="V,14,0,|,0\n";
-			file+="V,12,0,|,0\n";
-			file+="V,10,0,|,0\n";
-			file+="V,8,0,|,0\n";
-			file+="V,6,0,|,0\n";
-			file+="V,4,0,|,0\n";
-			file+="V,2,0,|,0\n";
-			file+="V,0,0,|,0\n";
-			file+="V,1,4,Z,10\n";
+				file+="V,20,0,|,20\n";
+				file+="V,18,0,|,0\n";
+				file+="V,16,0,|,0\n";
+				file+="V,14,0,|,0\n";
+				file+="V,12,0,|,0\n";
+				file+="V,10,0,|,0\n";
+				file+="V,8,0,|,0\n";
+				file+="V,6,0,|,0\n";
+				file+="V,4,0,|,0\n";
+				file+="V,2,0,|,0\n";
+				file+="V,0,0,|,0\n";
+				file+="V,1,4,Z,10\n";
 
+			}
 			p=new Player();
 			b=new Player();
 			b.name="|";
@@ -416,13 +423,37 @@ namespace Invader
 							{
 								if(t[i].x<Console.WindowWidth-1)
 									t[i].x++;
+								else
+								{
+									t[i].interval=0;
+									t[i].x++;
+								}
 							}else
 							{
 								if(t[i].x>1)
 									t[i].x--;
+								else
+								{
+									t[i].interval=15;
+									t[i].x++;
+								}
 							}
 							if(t[i].interval%4==1)
 								t[i].y++;
+							break;
+						case "V":
+							t[i].interval++;
+							if(t[i].interval%2==1)
+							{
+								t[i].x++;
+								if(t[i].x>Console.WindowWidth/2-2)
+								{
+									t[i].y--;
+								}else
+								{
+									t[i].y++;
+								}
+							}
 							break;
 					}
 				}
