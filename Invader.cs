@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 namespace Invader
 {
 	class Invader
@@ -8,9 +9,11 @@ namespace Invader
 		static bool gameover=false;
 		static Player p;
 		static Player b;
-		static Player[] t;
+		static Player[] invader;
+		static Player[][] allinvader;
 		public static string file="";
 		public static uint interval=0;
+		static uint cbuf=0;
 		static void Main()
 		{
 			Console.Clear();
@@ -19,6 +22,7 @@ namespace Invader
 			Console.WindowWidth=20;
 			Console.WindowHeight=20;
 			Init();
+			load();
 			Run();
 			Console.Clear();
 			Console.SetCursorPosition(Console.WindowWidth/2-3,Console.WindowHeight/2);
@@ -34,173 +38,15 @@ namespace Invader
 		}
 		static void Init()
 		{
-			try{
-				using(System.IO.StreamReader r = new System.IO.StreamReader("Data"))
+			try
+			{
+				using(StreamReader r =new StreamReader("Data"))
 				{
 					file=r.ReadToEnd();
 				}
-			}catch{
-				file+="V,19,0,|,5\n";
-				file+="V,17,0,|,0\n";
-				file+="V,15,0,|,0\n";
-				file+="V,13,0,|,0\n";
-				file+="V,11,0,|,0\n";
-				file+="V,9,0,|,0\n";
-				file+="V,7,0,|,0\n";
-				file+="V,5,0,|,0\n";
-				file+="V,3,0,|,0\n";
-				file+="V,1,0,|,0\n";
-				file+="V,20,0,|,5\n";
-				file+="V,18,0,|,0\n";
-				file+="V,16,0,|,0\n";
-				file+="V,14,0,|,0\n";
-				file+="V,12,0,|,0\n";
-				file+="V,10,0,|,0\n";
-				file+="V,8,0,|,0\n";
-				file+="V,6,0,|,0\n";
-				file+="V,4,0,|,0\n";
-				file+="V,2,0,|,0\n";
-				file+="V,0,0,|,0\n";
-				file+="V,19,0,|,5\n";
-				file+="V,17,0,|,0\n";
-				file+="V,15,0,|,0\n";
-				file+="V,13,0,|,0\n";
-				file+="V,11,0,|,0\n";
-				file+="V,9,0,|,0\n";
-				file+="V,7,0,|,0\n";
-				file+="V,5,0,|,0\n";
-				file+="V,3,0,|,0\n";
-				file+="V,1,0,|,0\n";
-				file+="V,20,0,|,5\n";
-				file+="V,18,0,|,0\n";
-				file+="V,16,0,|,0\n";
-				file+="V,14,0,|,0\n";
-				file+="V,12,0,|,0\n";
-				file+="V,10,0,|,0\n";
-				file+="V,8,0,|,0\n";
-				file+="V,6,0,|,0\n";
-				file+="V,4,0,|,0\n";
-				file+="V,2,0,|,0\n";
-				file+="V,0,0,|,0\n";
-
-				file+="V,1,0,Z,40\n";
-				file+="V,1,0,Z,10\n";
-				file+="V,1,0,Z,10\n";
-				file+="V,1,0,Z,10\n";
-
-				file+="V,1,1,Z,10\n";
-				file+="V,1,1,Z,10\n";
-				file+="V,1,1,Z,10\n";
-				file+="V,1,1,Z,10\n";
-
-				file+="V,19,0,|,20\n";
-				file+="V,17,0,|,0\n";
-				file+="V,15,0,|,0\n";
-				file+="V,13,0,|,0\n";
-				file+="V,11,0,|,0\n";
-				file+="V,9,0,|,0\n";
-				file+="V,7,0,|,0\n";
-				file+="V,5,0,|,0\n";
-				file+="V,3,0,|,0\n";
-				file+="V,1,0,|,0\n";
-
-				file+="V,20,0,|,20\n";
-				file+="V,18,0,|,0\n";
-				file+="V,16,0,|,0\n";
-				file+="V,14,0,|,0\n";
-				file+="V,12,0,|,0\n";
-				file+="V,10,0,|,0\n";
-				file+="V,8,0,|,0\n";
-				file+="V,6,0,|,0\n";
-				file+="V,4,0,|,0\n";
-				file+="V,2,0,|,0\n";
-				file+="V,0,0,|,0\n";
-
-				file+="V,1,2,Z,10\n";
-				file+="V,1,2,Z,10\n";
-				file+="V,1,2,Z,10\n";
-				file+="V,1,2,Z,10\n";
-
-				file+="V,19,0,|,20\n";
-				file+="V,17,0,|,0\n";
-				file+="V,15,0,|,0\n";
-				file+="V,13,0,|,0\n";
-				file+="V,11,0,|,0\n";
-				file+="V,9,0,|,0\n";
-				file+="V,7,0,|,0\n";
-				file+="V,5,0,|,0\n";
-				file+="V,3,0,|,0\n";
-				file+="V,1,0,|,0\n";
-
-				file+="V,20,0,|,20\n";
-				file+="V,18,0,|,0\n";
-				file+="V,16,0,|,0\n";
-				file+="V,14,0,|,0\n";
-				file+="V,12,0,|,0\n";
-				file+="V,10,0,|,0\n";
-				file+="V,8,0,|,0\n";
-				file+="V,6,0,|,0\n";
-				file+="V,4,0,|,0\n";
-				file+="V,2,0,|,0\n";
-				file+="V,0,0,|,0\n";
-
-				file+="V,1,3,Z,10\n";
-				file+="V,1,3,Z,10\n";
-				file+="V,1,3,Z,10\n";
-				file+="V,1,3,Z,10\n";
-
-				file+="V,19,0,|,20\n";
-				file+="V,17,0,|,0\n";
-				file+="V,15,0,|,0\n";
-				file+="V,13,0,|,0\n";
-				file+="V,11,0,|,0\n";
-				file+="V,9,0,|,0\n";
-				file+="V,7,0,|,0\n";
-				file+="V,5,0,|,0\n";
-				file+="V,3,0,|,0\n";
-				file+="V,1,0,|,0\n";
-
-				file+="V,20,0,|,20\n";
-				file+="V,18,0,|,0\n";
-				file+="V,16,0,|,0\n";
-				file+="V,14,0,|,0\n";
-				file+="V,12,0,|,0\n";
-				file+="V,10,0,|,0\n";
-				file+="V,8,0,|,0\n";
-				file+="V,6,0,|,0\n";
-				file+="V,4,0,|,0\n";
-				file+="V,2,0,|,0\n";
-				file+="V,0,0,|,0\n";
-
-				file+="V,1,4,Z,10\n";
-				file+="V,1,4,Z,10\n";
-				file+="V,1,4,Z,10\n";
-
-				file+="V,19,0,|,20\n";
-				file+="V,17,0,|,0\n";
-				file+="V,15,0,|,0\n";
-				file+="V,13,0,|,0\n";
-				file+="V,11,0,|,0\n";
-				file+="V,9,0,|,0\n";
-				file+="V,7,0,|,0\n";
-				file+="V,5,0,|,0\n";
-				file+="V,3,0,|,0\n";
-				file+="V,1,0,|,0\n";
-
-				file+="V,20,0,|,20\n";
-				file+="V,18,0,|,0\n";
-				file+="V,16,0,|,0\n";
-				file+="V,14,0,|,0\n";
-				file+="V,12,0,|,0\n";
-				file+="V,10,0,|,0\n";
-				file+="V,8,0,|,0\n";
-				file+="V,6,0,|,0\n";
-				file+="V,4,0,|,0\n";
-				file+="V,2,0,|,0\n";
-				file+="V,0,0,|,0\n";
-				file+="V,1,4,Z,10\n";
-
 			}
+			catch
+			{}
 			p=new Player();
 			b=new Player();
 			b.name="|";
@@ -210,7 +56,8 @@ namespace Invader
 			p.name="A";
 			p.count=0;
 			string[] data=file.Split('\n');
-			t=new Player[0];
+			invader=new Player[0];
+			allinvader=new Player[0][];
 			int players=0;
 			int wait=0;
 			for(int i=0;i<data.Length;i++)
@@ -229,19 +76,64 @@ namespace Invader
 					}
 					try{
 						wait+=int.Parse(node[4]);
+						if(int.Parse(node[4])==0)
+						{
+							players++;
+							Array.Resize(ref invader,invader.Length+1);
+							invader[invader.Length-1]=tmp;
+							invader[invader.Length-1].count=players;
+							invader[invader.Length-1].status=1;
+							invader[invader.Length-1].wait=wait;
+							invader[invader.Length-1].enter=1;
+							Array.Sort(invader);
+							Array.Reverse(invader);
+						}else
+						{
+							players++;
+							Array.Resize(ref invader,invader.Length+1);
+							invader[invader.Length-1]=tmp;
+							invader[invader.Length-1].count=players;
+							invader[invader.Length-1].status=1;
+							invader[invader.Length-1].wait=wait;
+							invader[invader.Length-1].enter=1;
+							Array.Sort(invader);
+							Array.Reverse(invader);
+							Array.Resize(ref allinvader,allinvader.Length+1);
+							allinvader[allinvader.Length-1]=invader;
+							invader=new Player[0];
+							Array.Sort(allinvader);
+							Array.Reverse(allinvader);
+						}
 					}catch{
 					}
-					players++;
-					Array.Resize(ref t,t.Length+1);
-					t[t.Length-1]=tmp;
-					t[t.Length-1].count=players;
-					t[t.Length-1].status=1;
-					t[t.Length-1].wait=wait;
-					Array.Sort(t);
-					Array.Reverse(t);
 				}catch
 				{
 				}
+			}
+			load();
+		}
+		static void load()
+		{
+			if(cbuf<allinvader.Length)
+			{
+				Player[] tmpinvader=new Player[0];
+				for(int i=0;i<invader.Length;i++)
+				{
+					if(invader[i].status==1)
+					{
+						Array.Resize(ref tmpinvader,tmpinvader.Length+1);
+						tmpinvader[tmpinvader.Length-1]=invader[i];
+					}
+				}
+				invader=allinvader[cbuf];
+				for(int i=0;i<tmpinvader.Length;i++)
+				{
+					Array.Resize(ref invader,invader.Length+1);
+					invader[invader.Length-1]=tmpinvader[i];
+				}
+				Array.Sort(invader);
+				Array.Reverse(invader);
+				cbuf++;
 			}
 		}
 		static void Move(int h)
@@ -313,10 +205,10 @@ namespace Invader
 						case ConsoleKey.D7:
 						case ConsoleKey.D8:
 						case ConsoleKey.D9:
-							for(int i=0;i<t.Length;i++)
+							for(int i=0;i<invader.Length;i++)
 							{
 								if(i==int.Parse(c.KeyChar.ToString())-1)
-									t[i].status=1;
+									invader[i].status=1;
 							}
 							break;
 						case ConsoleKey.Spacebar:
@@ -360,9 +252,9 @@ namespace Invader
 					sw.Reset();
 					sw.Start();
 				} 
-				for(int i=0;i<t.Length;i++)
+				for(int i=0;i<invader.Length;i++)
 				{
-					if(p.y==t[i].y && p.x==t[i].x && t[i].status==1)
+					if(p.y==invader[i].y && p.x==invader[i].x && invader[i].status==1)
 						gameover=true;
 				}
 			}
@@ -370,10 +262,10 @@ namespace Invader
 		static void Update()
 		{
 			interval++;
-			for(int i=0;i<t.Length;i++)
+			for(int i=0;i<invader.Length;i++)
 			{
-				if(t[i].x>=0 & t[i].x<=Console.WindowWidth-1 & t[i].y>=0 & t[i].y<=Console.WindowHeight-1)
-					Console.SetCursorPosition(t[i].x,t[i].y);
+				if(invader[i].x>=0 & invader[i].x<=Console.WindowWidth-1 & invader[i].y>=0 & invader[i].y<=Console.WindowHeight-1)
+					Console.SetCursorPosition(invader[i].x,invader[i].y);
 				Console.Write(" ");
 			}
 			Console.SetCursorPosition(p.x,p.y);
@@ -391,12 +283,12 @@ namespace Invader
 			if(b.status==1)
 			{
 				b.y--;
-				for(int i=0;i<t.Length;i++)
+				for(int i=0;i<invader.Length;i++)
 				{
-					if(t[i].x==b.x & t[i].y==b.y & t[i].enter==1 & t[i].status==1)
+					if(invader[i].x==b.x & invader[i].y==b.y & invader[i].enter==1 & invader[i].status==1)
 					{
-						t[i].status=0;
-						t[i].enter=0;
+						invader[i].status=0;
+						invader[i].enter=0;
 					}
 				}
 				Console.SetCursorPosition(b.x,b.y);
@@ -404,81 +296,73 @@ namespace Invader
 				Console.Write(b.name);
 				Console.ForegroundColor=ConsoleColor.White;
 			}
-			for(int i=0;i<t.Length;i++)
+			if(interval>=invader[0].wait)
 			{
-				if(interval>=t[i].wait)
+				load();
+			}
+			for(int i=0;i<invader.Length;i++)
+			{
+				if(invader[i].status==1&invader[i].enter==1)
 				{
-					t[i].enter=1;
-				}
-				if(t[i].status==1&t[i].enter==1)
-				{
-					switch(t[i].c)
+					switch(invader[i].c)
 					{
 						case "|":
-							t[i].y++;
+							invader[i].y++;
 							break;
 						case "Z":
-							t[i].interval++;
-							if(t[i].interval%32>=16)
+							invader[i].interval++;
+							if(invader[i].interval%32>=16)
 							{
-								if(t[i].x<Console.WindowWidth-1)
-									t[i].x++;
+								if(invader[i].x<Console.WindowWidth-1)
+									invader[i].x++;
 								else
-								{
-									t[i].interval=0;
-									t[i].x++;
-								}
+									invader[i].interval=0;
 							}else
 							{
-								if(t[i].x>1)
-									t[i].x--;
+								if(invader[i].x>1)
+									invader[i].x--;
 								else
-								{
-									t[i].interval=15;
-									t[i].x++;
-								}
+									invader[i].interval=16;
 							}
-							if(t[i].interval%4==1)
-								t[i].y++;
+							if(invader[i].interval%4==1)
+								invader[i].y++;
 							break;
-						case "V":
-							t[i].interval++;
-							if(t[i].interval%2==1)
-							{
-								t[i].x++;
-								if(t[i].x>Console.WindowWidth/2-2)
-								{
-									t[i].y--;
-								}else
-								{
-									t[i].y++;
-								}
-							}
+						case ">":
+							if(invader[i].x<Console.WindowWidth-1)
+								invader[i].x++;
+							else
+								invader[i].status=0;
+							break;
+						case "<":
+							if(invader[i].x>1)
+								invader[i].x--;
+							else
+								invader[i].status=0;
 							break;
 					}
 				}
 			}
-			int j=t.Length;
-			for(int i=0;i<t.Length;i++)
+			int j=invader.Length;
+			for(int i=0;i<invader.Length;i++)
 			{
-				if(t[i].status==1)
+				if(invader[i].status==1)
 					clear=false;
 				else
 					j--;
 			}
-			if(j==0)
+			if(j==0 & cbuf >=allinvader.Length)
 				clear=true;
-			for(int i=0;i<t.Length;i++)
+			for(int i=0;i<invader.Length;i++)
 			{
-				if(t[i].y>Console.WindowHeight-1 | t[i].y<0 | t[i].x>Console.WindowWidth-1 | t[i].y<0 | (t[i].x==b.x & t[i].y==b.y & t[i].status==1 & t[i].enter==1))
+				if(invader[i].y>Console.WindowHeight-1 | invader[i].y<0 | invader[i].x>Console.WindowWidth-1 | invader[i].y<0 | (invader[i].x==b.x & invader[i].y==b.y & invader[i].status==1 & invader[i].enter==1))
 				{
-					t[i].status=0;
-					t[i].y=0;
+					invader[i].status=0;
+					invader[i].y=0;
 				}
-				if(t[i].status==1&t[i].enter==1)
+				if(invader[i].status==1&invader[i].enter==1)
 				{
-					Console.SetCursorPosition(t[i].x,t[i].y);
-					Console.Write(t[i].name);
+					Console.SetCursorPosition(invader[i].x,invader[i].y);
+					Console.Write(invader[i].name);
 				}
 			}
 			Console.SetCursorPosition(p.x,p.y);
