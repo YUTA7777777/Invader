@@ -81,6 +81,11 @@ namespace Invader
 						tmp.c="";
 					}
 					try{
+						tmp.iswait=int.Parse(node[5]);
+					}catch{
+						tmp.iswait=0;
+					}
+					try{
 						wait+=uint.Parse(node[4]);
 						if(int.Parse(node[4])==0)
 						{
@@ -674,6 +679,10 @@ namespace Invader
 								break;
 						}
 					}
+					if(invader[i].iswait!=0)
+					{
+						interval--;
+					}
 				}
 			}
 			for(int i=0;i<invader.Length;i++)
@@ -753,6 +762,7 @@ namespace Invader
 		public int[] variant=null;
 		public string name,c;
 		public bool isbomb=false;
+		public int iswait=0;
 		public static int Count=1;
 		public Player()
 		{
