@@ -27,19 +27,28 @@ namespace Invader
 			Console.Write("Invader");
 			Console.ReadKey();
 			Console.Clear();
-			Init();
-			load();
-			Run();
-			Console.Clear();
-			Console.SetCursorPosition(Console.WindowWidth/2-3,Console.WindowHeight/2);
-			if(clear)
+			while(!clear)
 			{
-				Console.Write("Clear!!");
-			}else
-			{
-				Console.Write("GameOver!!");
+				Init();
+				load();
+				Run();
+				Console.Clear();
+				Console.SetCursorPosition(Console.WindowWidth/2-3,Console.WindowHeight/2);
+				if(clear)
+				{
+					Console.Write("Clear!!");
+				}else
+				{
+					Console.Write("GameOver!!");
+					gameover=false;
+					interval=0;
+					cinterval=0;
+					Level=1;
+					cbuf=0;
+				}
+				Console.ReadKey();
+				Console.Clear();
 			}
-			Console.ReadKey();
 			Console.CursorVisible=true;
 		}
 		static void Init()
@@ -119,7 +128,6 @@ namespace Invader
 				{
 				}
 			}
-			load();
 		}
 		static void load()
 		{
