@@ -227,7 +227,14 @@ namespace Invader
 								{
 									if(invader[i].x==b.x & invader[i].y==b.y & invader[i].status==1)
 									{
-										invader[i].status=0;
+										if(invader[i].life<=1)
+										{
+											invader[i].status=0;
+											invader[i].y=0;
+										}else
+										{
+											invader[i].life--;
+										}
 									}
 								}
 								Console.ForegroundColor=ConsoleColor.Red;
@@ -300,7 +307,14 @@ namespace Invader
 				{
 					if(invader[i].x==b.x & invader[i].y==b.y & invader[i].status==1)
 					{
-						invader[i].status=0;
+						if(invader[i].life<=1)
+						{
+							invader[i].status=0;
+							invader[i].y=0;
+						}else
+						{
+							invader[i].life--;
+						}
 					}
 				}
 				Console.SetCursorPosition(b.x,b.y);
@@ -331,6 +345,10 @@ namespace Invader
 								break;
 							case "+":
 								invader[i].interval++;
+								if(invader[i].interval==2)
+								{
+									invader[i].life=5;
+								}
 								if(invader[i].x>p.x)
 								{
 									invader[i].x--;
@@ -339,48 +357,48 @@ namespace Invader
 								{
 									invader[i].x++;
 								}
-								if(invader[i].interval%16==1)
+								if(invader[i].interval%8==1)
 								{
-								Array.Resize(ref invader,invader.Length+1);
-								invader[invader.Length-1]=new Player();
-								invader[invader.Length-1].x=invader[i].x;
-								invader[invader.Length-1].y=invader[i].y;
-								invader[invader.Length-1].wait=interval;
-								invader[invader.Length-1].count=invader[i].count;
-								invader[invader.Length-1].status=1;
-								invader[invader.Length-1].interval=0;
-								invader[invader.Length-1].isbomb=true;
-								invader[i].variant=new int[1];
-								invader[i].variant[0]=3;
-								invader[invader.Length-1].c="Y";
-								invader[invader.Length-1].name=".";
-								Array.Resize(ref invader,invader.Length+1);
-								invader[invader.Length-1]=new Player();
-								invader[invader.Length-1].x=invader[i].x;
-								invader[invader.Length-1].y=invader[i].y;
-								invader[invader.Length-1].wait=interval;
-								invader[invader.Length-1].count=invader[i].count;
-								invader[invader.Length-1].status=1;
-								invader[invader.Length-1].interval=0;
-								invader[invader.Length-1].isbomb=true;
-								invader[i].variant=new int[1];
-								invader[i].variant[0]=-3;
-								invader[invader.Length-1].c="Y";
-								invader[invader.Length-1].name=".";
+									Array.Resize(ref invader,invader.Length+1);
+									invader[invader.Length-1]=new Player();
+									invader[invader.Length-1].x=invader[i].x+1;
+									invader[invader.Length-1].y=invader[i].y;
+									invader[invader.Length-1].wait=interval;
+									invader[invader.Length-1].count=invader[i].count;
+									invader[invader.Length-1].status=1;
+									invader[invader.Length-1].interval=0;
+									invader[invader.Length-1].isbomb=true;
+									invader[invader.Length-1].variant=new int[1];
+									invader[invader.Length-1].variant[0]=2;
+									invader[invader.Length-1].c="Y";
+									invader[invader.Length-1].name=".";
+									Array.Resize(ref invader,invader.Length+1);
+									invader[invader.Length-1]=new Player();
+									invader[invader.Length-1].x=invader[i].x-1;
+									invader[invader.Length-1].y=invader[i].y;
+									invader[invader.Length-1].wait=interval;
+									invader[invader.Length-1].count=invader[i].count;
+									invader[invader.Length-1].status=1;
+									invader[invader.Length-1].interval=0;
+									invader[invader.Length-1].isbomb=true;
+									invader[invader.Length-1].variant=new int[1];
+									invader[invader.Length-1].variant[0]=-2;
+									invader[invader.Length-1].c="Y";
+									invader[invader.Length-1].name=".";
 								}
 								if(invader[i].interval%32==8)
 								{
-								Array.Resize(ref invader,invader.Length+1);
-								invader[invader.Length-1]=new Player();
-								invader[invader.Length-1].x=invader[i].x;
-								invader[invader.Length-1].y=5;
-								invader[invader.Length-1].wait=interval;
-								invader[invader.Length-1].count=invader[i].count;
-								invader[invader.Length-1].status=1;
-								invader[invader.Length-1].interval=0;
-								invader[invader.Length-1].isbomb=true;
-								invader[invader.Length-1].c="p";
-								invader[invader.Length-1].name="P";
+									Array.Resize(ref invader,invader.Length+1);
+									invader[invader.Length-1]=new Player();
+									invader[invader.Length-1].x=invader[i].x;
+									invader[invader.Length-1].y=5;
+									invader[invader.Length-1].wait=interval;
+									invader[invader.Length-1].count=invader[i].count;
+									invader[invader.Length-1].status=1;
+									invader[invader.Length-1].interval=0;
+									invader[invader.Length-1].isbomb=true;
+									invader[invader.Length-1].c="p";
+									invader[invader.Length-1].name="P";
 								}
 								break;
 							case "F":
@@ -542,6 +560,31 @@ namespace Invader
 									}
 								}
 								break;
+							case "Y":
+								if(invader[i].variant==null)
+								{
+									invader[i].variant=new int[1];
+									invader[i].variant[0]=invader[i].x>p.x?-3:3;
+								}
+								invader[i].y++;
+								if(invader[i].x>p.x)
+								{
+									invader[i].variant[0]--;
+								}
+								if(invader[i].x<p.x)
+								{
+									invader[i].variant[0]++;
+								}
+								invader[i].x+=invader[i].variant[0];
+								if(invader[i].x<0)
+								{
+									invader[i].x=0;
+								}
+								if(invader[i].x>Console.WindowWidth-1)
+								{
+									invader[i].x=Console.WindowWidth-1;
+								}
+								break;
 						}
 					else
 					{
@@ -567,9 +610,9 @@ namespace Invader
 								{
 									invader[i].x=0;
 								}
-								if(invader[i].x>Console.WindowWidth-2)
+								if(invader[i].x>Console.WindowWidth-1)
 								{
-									invader[i].x=Console.WindowWidth-2;
+									invader[i].x=Console.WindowWidth-1;
 								}
 								break;
 							case "|":
@@ -577,7 +620,7 @@ namespace Invader
 								break;
 							case "*":
 								invader[i].interval++;
-								if(invader[i].interval%4==1)
+								if(invader[i].interval==1)
 								{
 									if(invader[i].x>p.x)
 									{
@@ -593,7 +636,7 @@ namespace Invader
 										invader[i].y++;
 									}
 								}
-								if(invader[i].interval>=10)
+								if(invader[i].interval>=8)
 								{
 									invader[i].status=0;
 								}	
@@ -655,8 +698,13 @@ namespace Invader
 			{
 				if(invader[i].y>Console.WindowHeight-2 | invader[i].y<0 | invader[i].x>Console.WindowWidth | invader[i].y<0 | (invader[i].x==b.x & invader[i].y==b.y & invader[i].status==1))
 				{
-					invader[i].status=0;
-					invader[i].y=0;
+					if(invader[i].life<=1)
+					{
+						invader[i].status=0;
+					}else
+					{
+						Console.ForegroundColor=ConsoleColor.Red;
+					}
 				}
 				if(invader[i].status==1)
 				{
@@ -700,7 +748,7 @@ namespace Invader
 	}
 	class Player : System.IComparable
 	{
-		public int status=1,x,y,count;
+		public int status=1,x,y,count,life=1;
 		public uint interval,wait;
 		public int[] variant=null;
 		public string name,c;
