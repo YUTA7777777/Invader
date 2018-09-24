@@ -71,13 +71,24 @@ namespace Invader
 				Array.Resize(ref data,data.Length+1);
 				data[data.Length-1]=new Data();
 				data[data.Length-1].score=Score;
+				Array.Sort(data);
+				Array.Reverse(data);
+				Data[] tmpdata=new Data[0];
+				for(int i=0;i<10;i++)
+				{
+					if(i<=data.Length-1)
+					{
+						Array.Resize(ref tmpdata,tmpdata.Length+1);
+						tmpdata[tmpdata.Length-1]=new Data();
+						tmpdata[tmpdata.Length-1]=data[i];
+					}
+				}
+				data=tmpdata;
 				using (var streamWriter = new StreamWriter("Score", false, Encoding.UTF8))
 				{
 					var xmlSerializer1 = new XmlSerializer(typeof(Data[]));
 					xmlSerializer1.Serialize(streamWriter, data);
 				}
-				Array.Sort(data);
-				Array.Reverse(data);
 				Console.ReadKey();
 				Console.Clear();
 				Console.SetCursorPosition(Console.WindowWidth/2-3,0);
@@ -432,7 +443,11 @@ namespace Invader
 				{
 					Console.SetCursorPosition(invader[i].x,invader[i].y);
 					if(invader[i].isbomb & (invader[i].c=="|" | invader[i].c=="Y"))
+					{
 						Console.ForegroundColor=ConsoleColor.Green;
+						if(invader[i].life>1)
+							Console.ForegroundColor=ConsoleColor.Magenta;
+					}
 					Console.Write(invader[i].name);
 					Console.ForegroundColor=ConsoleColor.White;
 					Array.Resize(ref tmpinvader,tmpinvader.Length+1);
@@ -594,66 +609,68 @@ namespace Invader
 					Console.Clear();
 					Level++;
 					break;
-				case "+":
-					invader[i].score=100;
+				case "X":
+					invader[i].score=600;
 					invader[i].interval++;
 					if(invader[i].interval==2)
 					{
-						invader[i].life=5;
+						invader[i].life=16;
 					}
-					if(invader[i].x>p.x)
+					if(invader[i].interval%32>=20 && invader[i].interval%2==1)
 					{
-						invader[i].x--;
-					}
-					if(invader[i].x<p.x)
-					{
-						invader[i].x++;
-					}
-					if(invader[i].interval%8==1)
-					{
-						Array.Resize(ref invader,invader.Length+1);
-						invader[invader.Length-1]=new Player();
-						invader[invader.Length-1].x=invader[i].x+1;
-						invader[invader.Length-1].y=invader[i].y;
-						invader[invader.Length-1].wait=interval;
-						invader[invader.Length-1].count=invader[i].count;
-						invader[invader.Length-1].status=1;
-						invader[invader.Length-1].interval=0;
-						invader[invader.Length-1].isbomb=true;
-						invader[invader.Length-1].variant=new int[1];
-						invader[invader.Length-1].variant[0]=2;
-						invader[invader.Length-1].c="Y";
-						invader[invader.Length-1].name=".";
-						Array.Resize(ref invader,invader.Length+1);
-						invader[invader.Length-1]=new Player();
-						invader[invader.Length-1].x=invader[i].x-1;
-						invader[invader.Length-1].y=invader[i].y;
-						invader[invader.Length-1].wait=interval;
-						invader[invader.Length-1].count=invader[i].count;
-						invader[invader.Length-1].status=1;
-						invader[invader.Length-1].interval=0;
-						invader[invader.Length-1].isbomb=true;
-						invader[invader.Length-1].variant=new int[1];
-						invader[invader.Length-1].variant[0]=-2;
-						invader[invader.Length-1].c="Y";
-						invader[invader.Length-1].name=".";
-					}
-					if(invader[i].interval%32==8)
-					{
+						if(invader[i].x>p.x)
+						{
+							invader[i].x--;
+						}
+						if(invader[i].x<p.x)
+						{
+							invader[i].x++;
+						}
 						Array.Resize(ref invader,invader.Length+1);
 						invader[invader.Length-1]=new Player();
 						invader[invader.Length-1].x=invader[i].x;
-						invader[invader.Length-1].y=5;
+						invader[invader.Length-1].y=invader[i].y;
 						invader[invader.Length-1].wait=interval;
 						invader[invader.Length-1].count=invader[i].count;
 						invader[invader.Length-1].status=1;
 						invader[invader.Length-1].interval=0;
 						invader[invader.Length-1].isbomb=true;
-						invader[invader.Length-1].c="p";
-						invader[invader.Length-1].name="P";
+						invader[invader.Length-1].c="|";
+						invader[invader.Length-1].name="|";
+						invader[invader.Length-1].life=2;
+						if(invader[i].x>=1)
+						{
+							Array.Resize(ref invader,invader.Length+1);
+							invader[invader.Length-1]=new Player();
+							invader[invader.Length-1].x=invader[i].x-1;
+							invader[invader.Length-1].y=invader[i].y;
+							invader[invader.Length-1].wait=interval;
+							invader[invader.Length-1].count=invader[i].count;
+							invader[invader.Length-1].status=1;
+							invader[invader.Length-1].interval=0;
+							invader[invader.Length-1].isbomb=true;
+							invader[invader.Length-1].c="|";
+							invader[invader.Length-1].name="|";
+							invader[invader.Length-1].life=2;
+						}
+						if(invader[i].x<=Console.WindowWidth-2)
+						{
+							Array.Resize(ref invader,invader.Length+1);
+							invader[invader.Length-1]=new Player();
+							invader[invader.Length-1].x=invader[i].x+1;
+							invader[invader.Length-1].y=invader[i].y;
+							invader[invader.Length-1].wait=interval;
+							invader[invader.Length-1].count=invader[i].count;
+							invader[invader.Length-1].status=1;
+							invader[invader.Length-1].interval=0;
+							invader[invader.Length-1].isbomb=true;
+							invader[invader.Length-1].c="|";
+							invader[invader.Length-1].name="|";
+							invader[invader.Length-1].life=2;
+						}
 					}
 					break;
-				case "F":
+				case ";":
 					invader[i].score=50;
 					invader[i].interval++;
 					if(invader[i].variant==null)
@@ -669,7 +686,7 @@ namespace Invader
 					{
 						invader[i].x--;
 					}
-					if(p.x==invader[i].x | (invader[i].interval%10>=4))
+					if(p.x==invader[i].x | (invader[i].interval%10==4))
 					{
 						Array.Resize(ref invader,invader.Length+1);
 						invader[invader.Length-1]=new Player();
@@ -680,171 +697,204 @@ namespace Invader
 						invader[invader.Length-1].status=1;
 						invader[invader.Length-1].interval=0;
 						invader[invader.Length-1].isbomb=true;
-						invader[invader.Length-1].c="|";
-						invader[invader.Length-1].name="|";
+						invader[invader.Length-1].variant=new int[1];
+						invader[invader.Length-1].variant[0]=0;
+						invader[invader.Length-1].c="Y";
+						invader[invader.Length-1].name="*";
 					}
 					break;
+				case ":":
+				       invader[i].score=50;
+				       invader[i].interval++;
+				       if(invader[i].variant==null)
+					       invader[i].variant=new int[1];
+				       if(invader[i].x==Console.WindowWidth-1)
+					       invader[i].variant[0]=0;
+				       else if(invader[i].x==0)
+					       invader[i].variant[0]=1;
+				       if(invader[i].variant[0]==1)
+				       {
+					       invader[i].x++;
+				       }else
+				       {
+					       invader[i].x--;
+				       }
+				       if(p.x==invader[i].x | (invader[i].interval%10>=4))
+				       {
+					       Array.Resize(ref invader,invader.Length+1);
+					       invader[invader.Length-1]=new Player();
+					       invader[invader.Length-1].x=invader[i].x;
+					       invader[invader.Length-1].y=invader[i].y+1;
+					       invader[invader.Length-1].wait=interval;
+					       invader[invader.Length-1].count=invader[i].count;
+					       invader[invader.Length-1].status=1;
+					       invader[invader.Length-1].interval=0;
+					       invader[invader.Length-1].isbomb=true;
+					       invader[invader.Length-1].c="|";
+					       invader[invader.Length-1].name="|";
+				       }
+				       break;
 				case "|":
-					invader[i].y++;
-					break;
+				       invader[i].y++;
+				       break;
 				case "V":
-					invader[i].score=30;
-					invader[i].y++;
-					if(p.y==invader[i].y|p.x==invader[i].x & new Random(seed++).Next(2)==1)
-					{
-						Array.Resize(ref invader,invader.Length+1);
-						invader[invader.Length-1]=new Player();
-						invader[invader.Length-1].x=invader[i].x;
-						invader[invader.Length-1].y=invader[i].y;
-						invader[invader.Length-1].wait=interval;
-						invader[invader.Length-1].count=invader[i].count;
-						invader[invader.Length-1].status=1;
-						invader[invader.Length-1].interval=0;
-						invader[invader.Length-1].isbomb=true;
-						invader[invader.Length-1].c="*";
-						invader[invader.Length-1].name="*";
-					}
-					break;
+				       invader[i].score=30;
+				       invader[i].y++;
+				       if(p.y==invader[i].y|p.x==invader[i].x & new Random(seed++).Next(2)==1)
+				       {
+					       Array.Resize(ref invader,invader.Length+1);
+					       invader[invader.Length-1]=new Player();
+					       invader[invader.Length-1].x=invader[i].x;
+					       invader[invader.Length-1].y=invader[i].y;
+					       invader[invader.Length-1].wait=interval;
+					       invader[invader.Length-1].count=invader[i].count;
+					       invader[invader.Length-1].status=1;
+					       invader[invader.Length-1].interval=0;
+					       invader[invader.Length-1].isbomb=true;
+					       invader[invader.Length-1].c="*";
+					       invader[invader.Length-1].name="*";
+				       }
+				       break;
 				case "Z":
-					invader[i].score=30;
-					invader[i].interval++;
-					if(invader[i].interval%32>=16)
-					{
-						if(invader[i].x<Console.WindowWidth-1)
-							invader[i].x++;
-						else
-							invader[i].interval=0;
-					}else
-					{
-						if(invader[i].x>1)
-							invader[i].x--;
-						else
-							invader[i].interval=16;
-					}
-					if(invader[i].interval%4==1)
-						invader[i].y++;
-					break;
+				       invader[i].score=30;
+				       invader[i].interval++;
+				       if(invader[i].interval%32>=16)
+				       {
+					       if(invader[i].x<Console.WindowWidth-1)
+						       invader[i].x++;
+					       else
+						       invader[i].interval=0;
+				       }else
+				       {
+					       if(invader[i].x>1)
+						       invader[i].x--;
+					       else
+						       invader[i].interval=16;
+				       }
+				       if(invader[i].interval%4==1)
+					       invader[i].y++;
+				       break;
 				case ">":
-					invader[i].score=20;
-					if(invader[i].x<Console.WindowWidth-1)
-						invader[i].x++;
-					else
-						invader[i].status=0;
-					if(p.x==invader[i].x & new Random(seed++).Next(15)==1)
-					{
-						Array.Resize(ref invader,invader.Length+1);
-						invader[invader.Length-1]=new Player();
-						invader[invader.Length-1].x=invader[i].x;
-						invader[invader.Length-1].y=invader[i].y+1;
-						invader[invader.Length-1].wait=interval;
-						invader[invader.Length-1].count=invader[i].count;
-						invader[invader.Length-1].status=1;
-						invader[invader.Length-1].interval=0;
-						invader[invader.Length-1].isbomb=true;
-						invader[invader.Length-1].c="|";
-						invader[invader.Length-1].name="|";
-					}
-					break;
+				       invader[i].score=20;
+				       if(invader[i].x<Console.WindowWidth-1)
+					       invader[i].x++;
+				       else
+					       invader[i].status=0;
+				       if(p.x==invader[i].x & new Random(seed++).Next(15)==1)
+				       {
+					       Array.Resize(ref invader,invader.Length+1);
+					       invader[invader.Length-1]=new Player();
+					       invader[invader.Length-1].x=invader[i].x;
+					       invader[invader.Length-1].y=invader[i].y+1;
+					       invader[invader.Length-1].wait=interval;
+					       invader[invader.Length-1].count=invader[i].count;
+					       invader[invader.Length-1].status=1;
+					       invader[invader.Length-1].interval=0;
+					       invader[invader.Length-1].isbomb=true;
+					       invader[invader.Length-1].c="|";
+					       invader[invader.Length-1].name="|";
+				       }
+				       break;
 				case "<":
-					invader[i].score=20;
-					if(invader[i].x>0)
-						invader[i].x--;
-					else
-						invader[i].status=0;
-					if(p.x==invader[i].x & new Random(seed++).Next(15)==1)
-					{
-						Array.Resize(ref invader,invader.Length+1);
-						invader[invader.Length-1]=new Player();
-						invader[invader.Length-1].x=invader[i].x;
-						invader[invader.Length-1].y=invader[i].y+1;
-						invader[invader.Length-1].wait=interval;
-						invader[invader.Length-1].count=invader[i].count;
-						invader[invader.Length-1].status=1;
-						invader[invader.Length-1].interval=0;
-						invader[invader.Length-1].isbomb=true;
-						invader[invader.Length-1].c="|";
-						invader[invader.Length-1].name="|";
-					}
-					break;
+				       invader[i].score=20;
+				       if(invader[i].x>0)
+					       invader[i].x--;
+				       else
+					       invader[i].status=0;
+				       if(p.x==invader[i].x & new Random(seed++).Next(15)==1)
+				       {
+					       Array.Resize(ref invader,invader.Length+1);
+					       invader[invader.Length-1]=new Player();
+					       invader[invader.Length-1].x=invader[i].x;
+					       invader[invader.Length-1].y=invader[i].y+1;
+					       invader[invader.Length-1].wait=interval;
+					       invader[invader.Length-1].count=invader[i].count;
+					       invader[invader.Length-1].status=1;
+					       invader[invader.Length-1].interval=0;
+					       invader[invader.Length-1].isbomb=true;
+					       invader[invader.Length-1].c="|";
+					       invader[invader.Length-1].name="|";
+				       }
+				       break;
 				case "B":
-					invader[i].score=40;
-					invader[i].interval++;
-					if(invader[i].interval%32>=16)
-					{
-						if(invader[i].x<Console.WindowWidth-1)
-							invader[i].x++;
-						else
-							invader[i].interval=0;
-					}else
-					{
-						if(invader[i].x>1)
-							invader[i].x--;
-						else
-							invader[i].interval=16;
-					}
-					if(invader[i].interval%4==1)
-						invader[i].y++;
-					if(p.y==invader[i].y|p.x==invader[i].x & new Random(seed++).Next(2)==1)
-					{
-						Array.Resize(ref invader,invader.Length+1);
-						invader[invader.Length-1]=new Player();
-						invader[invader.Length-1].x=invader[i].x;
-						invader[invader.Length-1].y=invader[i].y;
-						invader[invader.Length-1].wait=interval;
-						invader[invader.Length-1].count=invader[i].count;
-						invader[invader.Length-1].status=1;
-						invader[invader.Length-1].interval=0;
-						invader[invader.Length-1].isbomb=true;
-						invader[invader.Length-1].c="*";
-						invader[invader.Length-1].name="*";
-					}
-					break;
+				       invader[i].score=40;
+				       invader[i].interval++;
+				       if(invader[i].interval%32>=16)
+				       {
+					       if(invader[i].x<Console.WindowWidth-1)
+						       invader[i].x++;
+					       else
+						       invader[i].interval=0;
+				       }else
+				       {
+					       if(invader[i].x>1)
+						       invader[i].x--;
+					       else
+						       invader[i].interval=16;
+				       }
+				       if(invader[i].interval%4==1)
+					       invader[i].y++;
+				       if(p.y==invader[i].y|p.x==invader[i].x & new Random(seed++).Next(2)==1)
+				       {
+					       Array.Resize(ref invader,invader.Length+1);
+					       invader[invader.Length-1]=new Player();
+					       invader[invader.Length-1].x=invader[i].x;
+					       invader[invader.Length-1].y=invader[i].y;
+					       invader[invader.Length-1].wait=interval;
+					       invader[invader.Length-1].count=invader[i].count;
+					       invader[invader.Length-1].status=1;
+					       invader[invader.Length-1].interval=0;
+					       invader[invader.Length-1].isbomb=true;
+					       invader[invader.Length-1].c="*";
+					       invader[invader.Length-1].name="*";
+				       }
+				       break;
 				case "p":
-					invader[i].score=50;
-					invader[i].interval++;
-					if(invader[i].interval%2==1)
-					{
-						if(invader[i].x>p.x)
-						{
-							invader[i].x--;
-						} if(invader[i].x<p.x)
-						{
-							invader[i].x++;
-						} if(invader[i].y>p.y)
-						{
-							invader[i].y--;
-						} if(invader[i].y<p.y)
-						{
-							invader[i].y++;
-						}
-					}
-					break;
+				       invader[i].score=50;
+				       invader[i].interval++;
+				       if(invader[i].interval%2==1)
+				       {
+					       if(invader[i].x>p.x)
+					       {
+						       invader[i].x--;
+					       } if(invader[i].x<p.x)
+					       {
+						       invader[i].x++;
+					       } if(invader[i].y>p.y)
+					       {
+						       invader[i].y--;
+					       } if(invader[i].y<p.y)
+					       {
+						       invader[i].y++;
+					       }
+				       }
+				       break;
 				case "Y":
-					invader[i].score=30;
-					if(invader[i].variant==null)
-					{
-						invader[i].variant=new int[1];
-						invader[i].variant[0]=invader[i].x>p.x?-2:2;
-					}
-					invader[i].y++;
-					if(invader[i].x>p.x)
-					{
-						invader[i].variant[0]--;
-					}
-					if(invader[i].x<p.x)
-					{
-						invader[i].variant[0]++;
-					}
-					invader[i].x+=invader[i].variant[0];
-					if(invader[i].x<0)
-					{
-						invader[i].x=0;
-					}
-					if(invader[i].x>Console.WindowWidth-1)
-					{
-						invader[i].x=Console.WindowWidth-1;
-					}
-					break;
+				       invader[i].score=30;
+				       if(invader[i].variant==null)
+				       {
+					       invader[i].variant=new int[1];
+					       invader[i].variant[0]=invader[i].x>p.x?-2:2;
+				       }
+				       invader[i].y++;
+				       if(invader[i].x>p.x)
+				       {
+					       invader[i].variant[0]--;
+				       }
+				       if(invader[i].x<p.x)
+				       {
+					       invader[i].variant[0]++;
+				       }
+				       invader[i].x+=invader[i].variant[0];
+				       if(invader[i].x<0)
+				       {
+					       invader[i].x=0;
+				       }
+				       if(invader[i].x>Console.WindowWidth-1)
+				       {
+					       invader[i].x=Console.WindowWidth-1;
+				       }
+				       break;
 			}
 		}
 	}
