@@ -80,12 +80,15 @@ namespace Invader
 				Array.Reverse(data);
 				Console.ReadKey();
 				Console.Clear();
+				Console.SetCursorPosition(Console.WindowWidth/2-3,0);
+				Console.Write("Score");
 				for(int i=0;i<data.Length;i++)
 				{
-					Console.SetCursorPosition((Console.WindowWidth-String.Format("{0}:{1}",i+1,data[i].score).Length)/2,Console.WindowHeight/2+i-data.Length/2);
-					Console.Write("{0}:{1}",i+1,data[i].score);
-					if(i>10)
-						break;
+					if(i<10)
+					{
+						Console.SetCursorPosition((Console.WindowWidth-String.Format("{0}:{1}",i+1,data[i].score).Length)/2,Console.WindowHeight/2+i-10/2);
+						Console.Write("{0}:{1}",i+1,data[i].score);
+					}
 				}
 				Score=0;
 				Console.ReadKey();
