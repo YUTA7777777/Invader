@@ -26,7 +26,7 @@ namespace Invader
 				{
 					CheckCharacters = false,
 				};
-				using (var streamReader = new StreamReader("Score", Encoding.UTF8))
+				using (var streamReader = new StreamReader(".score", Encoding.UTF8))
 					using (var xmlReader
 							= System.Xml.XmlReader.Create(streamReader, xmlSettings))
 					{
@@ -84,7 +84,7 @@ namespace Invader
 					}
 				}
 				data=tmpdata;
-				using (var streamWriter = new StreamWriter("Score", false, Encoding.UTF8))
+				using (var streamWriter = new StreamWriter(".score", false, Encoding.UTF8))
 				{
 					var xmlSerializer1 = new XmlSerializer(typeof(Data[]));
 					xmlSerializer1.Serialize(streamWriter, data);
@@ -111,7 +111,7 @@ namespace Invader
 		{
 			try
 			{
-				using(StreamReader r =new StreamReader("Data"))
+				using(StreamReader r =new StreamReader(".data"))
 				{
 					file=r.ReadToEnd();
 				}
@@ -616,7 +616,26 @@ namespace Invader
 					{
 						invader[i].life=16;
 					}
-					if(invader[i].interval%32>=20 && invader[i].interval%2==1)
+					if(invader[i].interval%32==20)
+					{
+						Array.Resize(ref invader,invader.Length+1);
+						invader[invader.Length-1]=new Player();
+						if(invader[i].x>=2)
+							invader[invader.Length-1].x=0;
+						else if(invader[i].x<=Console.WindowWidth-2)
+							invader[invader.Length-1].x=Console.WindowWidth-1;
+						else
+							invader[invader.Length-1].x=invader[i].x;
+						invader[invader.Length-1].y=invader[i].y;
+						invader[invader.Length-1].wait=interval;
+						invader[invader.Length-1].count=invader[i].count;
+						invader[invader.Length-1].status=1;
+						invader[invader.Length-1].interval=0;
+						invader[invader.Length-1].isbomb=true;
+						invader[invader.Length-1].c="p";
+						invader[invader.Length-1].name="P";
+					}
+					if(invader[i].interval%32>=20)
 					{
 						if(invader[i].x>p.x)
 						{
@@ -913,15 +932,6 @@ namespace Invader
 		public int[] variant=null;
 		public string name,c;
 		public bool isbomb=false;
-		public static int Count=1;
-		public Player()
-		{
-			Count++;
-		}
-		public void Dispose()
-		{
-			Count--;
-		}
 		public int CompareTo(object obj)
 		{
 			return this.count.CompareTo(((Player)obj).count);
