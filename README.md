@@ -5,21 +5,24 @@
 ### 1. How to Play ###
 
  * Press cursor keys to move character.
+  * Enter : PAUSE
+  * Cursor key : move the character
+  * Escape : Quit the game
 
 
-	 	|      V VV VV |
+	 	|      X       |
 	 	|              |
+	 	|     |||      |
 	 	|              |
+	 	|    |||       |
 	 	|              |
+	 	|   |||      | |
 	 	|              |
-	 	|          |   |
+	 	|  |||         |
 	 	|              |
+	 	| |||          |
 	 	|              |
-	 	|        |     |
-	 	|              |
-	 	|            | |
-	 	|              |
-	 	|            A |
+	 	||||         A |
 
 
 ------------------------------------------------------------

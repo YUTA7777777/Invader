@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -271,19 +271,10 @@ namespace Invader
 						case ConsoleKey.Escape:
 							Environment.Exit(0);
 							break;
-						case ConsoleKey.D1:
-						case ConsoleKey.D2:
-						case ConsoleKey.D3:
-						case ConsoleKey.D4:
-						case ConsoleKey.D5:
-						case ConsoleKey.D6:
-						case ConsoleKey.D7:
-						case ConsoleKey.D8:
-						case ConsoleKey.D9:
+						case ConsoleKey.C:
 							for(int i=0;i<invader.Length;i++)
 							{
-								if(i==int.Parse(c.KeyChar.ToString())-1)
-									invader[i].status=1;
+								invader[i].status=0;
 							}
 							break;
 						case ConsoleKey.Spacebar:
@@ -442,11 +433,18 @@ namespace Invader
 				if(invader[i].status==1)
 				{
 					Console.SetCursorPosition(invader[i].x,invader[i].y);
-					if(invader[i].isbomb & (invader[i].c=="|" | invader[i].c=="Y"))
+					if(invader[i].isbomb)
 					{
 						Console.ForegroundColor=ConsoleColor.Green;
-						if(invader[i].life>1)
-							Console.ForegroundColor=ConsoleColor.Magenta;
+						if(invader[i].c=="|")
+						{
+							if(invader[i].life>1)
+								Console.ForegroundColor=ConsoleColor.Magenta;
+						}
+						if(invader[i].c=="Y")
+						{
+							Console.ForegroundColor=ConsoleColor.Cyan;
+						}
 					}
 					Console.Write(invader[i].name);
 					Console.ForegroundColor=ConsoleColor.White;
@@ -610,7 +608,68 @@ namespace Invader
 					Level++;
 					break;
 				case "X":
-					invader[i].score=600;
+					invader[i].score=1000;
+					invader[i].interval++;
+					if(invader[i].interval==2)
+					{
+						invader[i].life=8;
+					}
+					if(invader[i].interval%6==1)
+					{
+						if(invader[i].x>p.x)
+						{
+							invader[i].x--;
+						}
+						if(invader[i].x<p.x)
+						{
+							invader[i].x++;
+						}
+						Array.Resize(ref invader,invader.Length+1);
+						invader[invader.Length-1]=new Player();
+						invader[invader.Length-1].x=invader[i].x;
+						invader[invader.Length-1].y=invader[i].y;
+						invader[invader.Length-1].wait=interval;
+						invader[invader.Length-1].count=invader[i].count;
+						invader[invader.Length-1].status=1;
+						invader[invader.Length-1].interval=0;
+						invader[invader.Length-1].isbomb=true;
+						invader[invader.Length-1].c="|";
+						invader[invader.Length-1].name="|";
+						invader[invader.Length-1].life=2;
+						if(invader[i].x>=1)
+						{
+							Array.Resize(ref invader,invader.Length+1);
+							invader[invader.Length-1]=new Player();
+							invader[invader.Length-1].x=invader[i].x-1;
+							invader[invader.Length-1].y=invader[i].y;
+							invader[invader.Length-1].wait=interval;
+							invader[invader.Length-1].count=invader[i].count;
+							invader[invader.Length-1].status=1;
+							invader[invader.Length-1].interval=0;
+							invader[invader.Length-1].isbomb=true;
+							invader[invader.Length-1].c="|";
+							invader[invader.Length-1].name="|";
+							invader[invader.Length-1].life=2;
+						}
+						if(invader[i].x<=Console.WindowWidth-2)
+						{
+							Array.Resize(ref invader,invader.Length+1);
+							invader[invader.Length-1]=new Player();
+							invader[invader.Length-1].x=invader[i].x+1;
+							invader[invader.Length-1].y=invader[i].y;
+							invader[invader.Length-1].wait=interval;
+							invader[invader.Length-1].count=invader[i].count;
+							invader[invader.Length-1].status=1;
+							invader[invader.Length-1].interval=0;
+							invader[invader.Length-1].isbomb=true;
+							invader[invader.Length-1].c="|";
+							invader[invader.Length-1].name="|";
+							invader[invader.Length-1].life=2;
+						}
+					}
+					break;
+				case "+":
+					invader[i].score=800;
 					invader[i].interval++;
 					if(invader[i].interval==2)
 					{
@@ -690,7 +749,7 @@ namespace Invader
 					}
 					break;
 				case ";":
-					invader[i].score=50;
+					invader[i].score=600;
 					invader[i].interval++;
 					if(invader[i].variant==null)
 						invader[i].variant=new int[1];
@@ -723,7 +782,7 @@ namespace Invader
 					}
 					break;
 				case ":":
-				       invader[i].score=50;
+				       invader[i].score=500;
 				       invader[i].interval++;
 				       if(invader[i].variant==null)
 					       invader[i].variant=new int[1];
@@ -757,7 +816,7 @@ namespace Invader
 				       invader[i].y++;
 				       break;
 				case "V":
-				       invader[i].score=30;
+				       invader[i].score=80;
 				       invader[i].y++;
 				       if(p.y==invader[i].y|p.x==invader[i].x & new Random(seed++).Next(2)==1)
 				       {
@@ -836,7 +895,7 @@ namespace Invader
 				       }
 				       break;
 				case "B":
-				       invader[i].score=40;
+				       invader[i].score=80;
 				       invader[i].interval++;
 				       if(invader[i].interval%32>=16)
 				       {
@@ -869,7 +928,7 @@ namespace Invader
 				       }
 				       break;
 				case "p":
-				       invader[i].score=50;
+				       invader[i].score=100;
 				       invader[i].interval++;
 				       if(invader[i].interval%2==1)
 				       {
@@ -889,7 +948,7 @@ namespace Invader
 				       }
 				       break;
 				case "Y":
-				       invader[i].score=30;
+				       invader[i].score=90;
 				       if(invader[i].variant==null)
 				       {
 					       invader[i].variant=new int[1];
