@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=200,user-scalable=no, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Invader</title>
+</head>
+
+<body style="background-color: #333;overflow:hidden">
+    Score:<div id="score" style="color:#fff"></div>
+    <div id="power-gage" style="color:#f00"></div>
+    <canvas id="Ganvas"></canvas>
+    <div id="Gable"></div>
+    <script>
+        function data() {
+            var data = [[
+                { name: "L", x: 0, y: 0, wait: 10 }
+            ], [
+                { name: "V", x: 0, y: 0, wait: 10 }, { name: "V", x: 19, y: 0, wait: 10 }
+            ], [
+                { name: "V", x: 0, y: 0, wait: 2 }, { name: "V", x: 19, y: 0, wait: 10 }
+            ], [
+                { name: "V", x: 0, y: 0, wait: 2 }, { name: "V", x: 19, y: 0, wait: 10 }
+            ], [
+                { name: "V", x: 0, y: 0, wait: 2 }, { name: "V", x: 19, y: 0, wait: 10 }
+            ], [
+                { name: "V", x: 0, y: 0, wait: 2 }, { name: "V", x: 19, y: 0, wait: 10 }
+            ], [
+                { name: "V", x: 0, y: 0, wait: 2 }, { name: "V", x: 19, y: 0, wait: 10 }
+            ], [
+                { name: "V", x: 0, y: 0, wait: 2 }, { name: "V", x: 19, y: 0, wait: 10 }
+            ], [
+                { name: "V", x: 0, y: 0, wait: 2 }, { name: "V", x: 19, y: 0, wait: 10 }
+            ], [
+                { name: "Z", x: 0, y: 0, wait: 10 }, { name: "V", x: 19, y: 0, wait: 10 }
+            ], [
+                { name: ">", x: 0, y: 0, wait: 20 }
+            ], [
+                { name: "<", x: 19, y: 0, wait: 1 }
+            ], [
+                { name: ">", x: 0, y: 0, wait: 1 }
+            ], [
+                { name: "<", x: 19, y: 0, wait: 1 }
+            ], [
+                { name: "W", x: 19, y: 0, wait: 20 }, { name: "W", x: 0, y: 0 }
+            ], [
+                { name: "L", x: 0, y: 0, wait: 10 }
+            ], [
+                { name: "Y", x: 0, y: 0, wait: 10 }
+            ], [
+                { name: "Y", x: 0, y: 0, wait: 2 }
+            ], [
+                { name: "Y", x: 0, y: 0, wait: 2 }
+            ], [
+                { name: "Y", x: 0, y: 0, wait: 2 }
+            ], [
+                { name: "Y", x: 0, y: 0, wait: 2 }
+            ], [
+                { name: "Y", x: 0, y: 0, wait: 2 }
+            ], [
+                { name: "Y", x: 0, y: 0, wait: 2 }
+            ], [
+                { name: "Y", x: 0, y: 0, wait: 2 }
+            ], [
+                { name: "(>", x: 0, y: 0, wait: 20 }
+            ], [
+                { name: "<)", x: 19, y: 0, wait: 20 }
+            ], [
+                { name: "$", x: 19, y: 0, wait: 20 }
+            ], [
+                { name: "$", x: 19, y: 10, wait: 20 }
+            ], [
+                { name: "<)", x: 19, y: 0, wait: 0 }
+            ], [
+                { name: "(>", x: 0, y: 10, wait: 20 }
+            ], [
+                { name: "&", x: 0, y: 0, wait: 30 }
+            ]];
+            var tmp_c = 0;
+            for (var i = 0; i < data.length; i++) {
+                for (var j = 0; j < data[i].length; j++) {
+                    data[i][j].count = tmp_c;
+                    data[i][j].status = 0;
+                }
+                tmp_c++;
+            }
+            return data;
+        }
+        var clear = true,
+            gameover = true,
+            p = {},
+            b = {},
+            invader = [],
+            readData = 0,
+            interval = 0,
+            nextTime = 0,
+            level = 1,
+            color = "#fff", bgcolor = "#000",
+            Score = 0,
+            canvas = document.getElementById("Ganvas"),
+            ctx = canvas.getContext("2d");
+        init = function () {
+            clear = false;
+            gameover = false;
+            level = 1;
+            Score = 0;
+            p = { x: 10, y: 10, name: "A", status: 0, count: 0 };
+            b = { x: 21, y: 21, status: 0, name: "||" };
+            invader.length = 0;
+            interval = 0;
+            nextTime = 0;
+            readData = 0;
+            document.getElementById("Gable").innerHTML = "";
+            load();
+        },
+            move = function (x, y, keycode) {
+                if (keycode == -1) {
+                    for (var i = 0; i < invader.length; i++) {
+                        if (invader[i].x == x && invader.y == y) {
+                            gameover = true;
+                            break;
+                        }
+                    }
+                    p.x = x;
+                    p.y = y;
+                } else {
+                    switch (keycode) {
+                        case 37://left
+                            if (p.x - 1 >= 0) p.x--;
+                            break;
+                        case 39://right
+                            if (p.x + 1 < 20) p.x++;
+                            break;
+                        case 38://up
+                            if (p.y - 1 >= 0) p.y--;
+                            break;
+                        case 40://down
+                            if (p.y + 1 < 20) p.y++;
+                            break;
+                    }
+                }
+                for (var i = 0; i < invader.length; i++) {
+                    if (invader[i].x == p.x && invader[i].y == p.y) {
+                        gameover = true;
+                        level = 1;
+                        document.getElementById("Gable").innerHTML = "<h1 style='color:red;font-size:30px;right:50%;bottom:50%;position:absolute'>GAME OVER</h1>";
+                        return;
+                    }
+                }
+
+                draw();
+            },
+            shot = function () {
+                if (b.status != 1) {
+                    b.status = 1;
+                    b.y = p.y - 1;
+                    b.x = p.x;
+                }
+                check();
+                draw();
+            },
+            load = function () {
+                if (readData < data().length) {
+                    tmp = [];
+                    for (var i = 0; i < invader.length; i++) {
+                        if (invader[i].status != 1) {
+                            tmp[tmp.length] = invader[i];
+                        }
+                    }
+                    invader = data()[readData].slice(0, data()[readData].length);
+                    for (var i = 0; i < tmp.length; i++) {
+                        invader[invader.length] = tmp[i];
+                    }
+                    invader.sort(
+                        function (a, b) {
+                            if (a.count > b.count) return -1;
+                            if (a.count < b.count) return 1;
+                            return 0;
+                        }
+                    )
+                    readData++;
+                    if (readData < data().length) {
+                        nextTime += data()[readData][0].wait;
+                    }
+                }
+            },
+            draw = function () {
+                if (gameover | clear) {
+                } else {
+                    var table = [];
+                    for (var i = 0; i < 20; i++) {
+                        table[i] = []
+                        for (var j = 0; j < 20; j++) {
+                            table[i][j] = "";
+                        }
+                    }
+                    if (p.status == 0)
+                        table[p.y][p.x] = p.name;
+                    if (b.status == 1)
+                        table[b.y][b.x] = b.name;
+                    if (invader.length > 0) {
+                        for (var i = 0; i < invader.length; i++) {
+                            table[invader[i].y][invader[i].x] = invader[i].name;
+                        }
+                    }
+                    ctx.fillStyle = "#000";
+                    ctx.clearRect(0, 0, canvas.width, canvas.width);
+                    ctx.rect(0, 0, TILE_W * 20, TILE_H * 20 + offset_y);
+                    ctx.fill();
+                    ctx.fillStyle = "#FFF";
+                    for (var i = 0; i < 20; i++)
+                        for (var j = 0; j < 20; j++) {
+                            if (table[i][j] == "&")
+                                ctx.fillStyle = color;
+                            ctx.fillText(table[i][j], TILE_W * j, TILE_H * i + offset_y);
+                            ctx.fillStyle = "#FFF";
+                        }
+                    bgcolor = "#000";
+                    color = "#fff";
+                }
+            },
+            moveInvader = function (i) {
+                switch (invader[i].name) {
+                    case "V":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 10;
+                        invader[i].y++;
+                        break;
+                    case "Y":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 10;
+                    case "()":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 0;
+                        invader[i].y++;
+                        if (invader[i].d == undefined) invader[i].d = 0;
+                        if (invader[i].x > p.x) invader[i].d--;
+                        if (invader[i].x < p.x) invader[i].d++;
+                        if ((invader[i].x + invader[i].d < 0 && invader[i].d < 0) | (invader[i].x + invader[i].d > 19 && invader[i].d > 0)) invader[i].d = 0;
+                        invader[i].x += invader[i].d
+                        break;
+                    case "Z":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 20;
+                        invader[invader.length] = { x: invader[i].x, y: invader[i].y, status: 0, name: "*" };
+                        if (invader[i].interval == undefined) {
+                            invader[i].interval = 0;
+                        }
+                        invader[i].interval++;
+                        if (invader[i].interval < 8) {
+                            invader[i].x++;
+                        } else if (invader[i].interval == 16) {
+                            interval = 0;
+                        } else {
+                            invader[i].x--;
+                        }
+                        invader[i].y++;
+                        break;
+                    case "||":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 0;
+                        if (invader[i].life == undefined)
+                            invader[i].life = 2;
+                    case "|":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 0;
+                        invader[i].y++;
+                        break;
+                    case "*":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 0;
+                        if (invader[i].interval == undefined) invader[i].interval = 0;
+                        invader[i].interval++;
+                        if (invader[i].interval > 10) invader[i].status = 1;
+                        break;
+                    case ">":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 20;
+                        invader[i].x++;
+                        invader[invader.length] = { x: invader[i].x, y: invader[i].y + 1, status: 0, name: "|" };
+                        break;
+                    case "<":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 20;
+                        invader[i].x--;
+                        invader[invader.length] = { x: invader[i].x, y: invader[i].y + 1, status: 0, name: "|" };
+                        break;
+                    case "L":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 0;
+                        invader[i].status = 1;
+                        alert("LEVEL " + level);
+                        level++;
+                        break;
+                    case "(>":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 30;
+                        invader[i].x++;
+                        invader[invader.length] = { x: invader[i].x, y: invader[i].y + 1, status: 0, name: "||" };
+                        break;
+                    case "<)":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 30;
+                        invader[i].x--;
+                        invader[invader.length] = { x: invader[i].x, y: invader[i].y + 1, status: 0, name: "||" };
+                        break;
+                    case "W":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 50;
+                        if (invader[i].d == undefined) {
+                            if (invader[i].x < 10)
+                                invader[i].d = 1;
+                            else
+                                invader[i].d = -1
+                        }
+                        interval = nextTime - 20;
+                        if (invader[i].x == 0) invader[i].d = 1;
+                        if (invader[i].x == 19) invader[i].d = -1;
+                        invader[i].x += invader[i].d;
+                        invader[invader.length] = { x: invader[i].x, y: invader[i].y + 1, status: 0, name: "|" };
+                        break;
+                    case "$":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 50;
+                        if (invader[i].d == undefined) {
+                            if (invader[i].x < 10)
+                                invader[i].d = 1;
+                            else
+                                invader[i].d = -1
+                        }
+                        interval = nextTime - 20;
+                        if (invader[i].x == 0) invader[i].d = 1;
+                        if (invader[i].x == 19) invader[i].d = -1;
+                        invader[i].x += invader[i].d;
+                        invader[invader.length] = { x: invader[i].x, y: invader[i].y + 1, status: 0, name: "()" };
+                        break;
+                    case "&":
+                        if (invader[i].score == undefined)
+                            invader[i].score = 100;
+                        interval = nextTime - 20;
+                        if (invader[i].interval == undefined)
+                            invader[i].interval = 0;
+                        if (invader[i].life == undefined)
+                            invader[i].life = 8;
+                        if (invader[i].interval % 16 > 6) {
+                            if (invader[i].x > p.x)
+                                invader[i].x--;
+                            else if (invader[i].x < p.x)
+                                invader[i].x++;
+                            invader[invader.length] = { x: invader[i].x - 1, y: invader[i].y + 1, status: 0, name: "||" };
+                            invader[invader.length] = { x: invader[i].x, y: invader[i].y + 1, status: 0, name: "||" };
+                            invader[invader.length] = { x: invader[i].x + 1, y: invader[i].y + 1, status: 0, name: "||" };
+                        }
+                        invader[i].interval++;
+                        if (invader[i].life != 0) {
+                            var html = "";
+                            for (var j = 0; j < invader[i].life; j++)
+                                html += "==";
+                            document.getElementById("power-gage").innerHTML = "<h2>POWER:</h2>" + html + "<br>";
+                        }
+                        break;
+                }
+            },
+            check = function () {
+                if (gameover | clear) return;
+                for (var i = 0; i < invader.length; i++) {
+                    if (invader[i].x == p.x && invader[i].y == p.y) {
+                        gameover = true;
+                        level = 1;
+                        document.getElementById("power-gage").innerHTML = "";
+                        document.getElementById("Gable").innerHTML = "<h1 style='color:red;font-size:30px;right:50%;bottom:50%;position:absolute'>GAME OVER</h1>";
+                        return;
+                    }
+                }
+                for (var i = 0; i < invader.length; i++) {
+                    if (invader[i].x == b.x && (invader[i].y == b.y | invader[i].y - 1 == b.y)) {
+                        if (invader[i].life == undefined) {
+                            invader[i].status = 1;
+                            Score += invader[i].score;
+                        }
+                        else {
+                            invader[i].life--;
+                            if (invader[i].life == 0) {
+                                invader[i].status = 1;
+                                Score += invader[i].score;
+                            }
+                        }
+                        if (invader[i].score != 0) {
+                            bgcolor = "#000";
+                            color = "#F00";
+                        }
+                    }
+                    else if (invader[i].x < 0 || invader[i].x >= 20 || invader[i].y < 0 || invader[i].y >= 20) {
+                        invader[i].status = 1;
+                    }
+                }
+                document.getElementById("score").innerHTML = "<h2>" + Score + "</h2>";
+                var tmp = [];
+                for (var i = 0; i < invader.length; i++) {
+                    if (invader[i].status != 1) {
+                        tmp[tmp.length] = invader[i];
+                    }
+                }
+                invader = tmp;
+                if (invader.length == 0 && readData == data().length) {
+                    document.getElementById("power-gage").innerHTML = "";
+                    document.getElementById("Gable").innerHTML = "<h1 style='color:#0f0;font-size:30px;right:50%;bottom:50%;position:absolute'>CLEAR</h1>";
+                    clear = true;
+                }
+            }
+        update = function () {
+            if (!gameover && !clear) {
+                interval++;
+                //load
+                if (interval >= nextTime)
+                    load();
+                //bomb motion
+                b.y--;
+                if (b.y < 0) {
+                    b.status = 0;
+                    b.y = 100;
+                }
+                for (var i = 0; i < invader.length; i++) {
+                    moveInvader(i);
+                }
+                check();
+                draw();
+            }
+        }; {
+        }
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        var TILE_W = canvas.width / 30;
+        var TILE_H = canvas.height / 30;
+        if (TILE_H > TILE_W)
+            TILEH = TILE_W;
+        else
+            TILE_W = TILE_H;
+        ctx.font = TILE_H + "px Arial";
+        var offset_y = TILE_H;
+        setInterval(update, 100);
+        document.addEventListener("keydown", function (e) {
+            if (gameover && clear)
+                init();
+            else if ((gameover & !clear) | (!gameover & clear)) {
+                gameover = true;
+                clear = true;
+                document.getElementById("Gable").innerHTML = "<h1 style='font-size:30px;color:#0ff;right:50%;bottom:50%;position:absolute'>START</h1>"
+            } else if (e.keyCode == 32)
+                shot();
+            else if (e.keyCode >= 37 && e.keyCode <= 40)
+                move(0, 0, e.keyCode);
+            else if (e.keyCode == 65) { invader = []; interval = nextTime; load(); }
+        })
+        canvas.addEventListener("mousedown", function (e) {
+            if (gameover && clear)
+                init();
+            else if ((gameover & !clear) | (!gameover & clear)) {
+                gameover = true;
+                clear = true;
+                document.getElementById("Gable").innerHTML = "<h1 style='font-size:30px;color:#0ff;right:50%;bottom:50%;position:absolute'>START</h1>"
+            }
+        })
+        canvas.addEventListener("touchmove",function(e){
+            if(!(gameover|clear)){
+                var mx = e.touches[0].clientX - e.target.getBoundingClientRect().left - TILE_W / 2;
+                var my = e.touches[0].clientY - e.target.getBoundingClientRect().top - TILE_H / 2;
+                var x = Math.floor(mx / TILE_W);
+                var y = Math.floor(my / TILE_H);
+                if (y >= 0 && y < 20 && x >= 0 && x < 20)
+                    move(x, y,-1);
+                shot();
+            }
+        })
+    </script>
+</body>
+
+</html>
